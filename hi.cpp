@@ -22,8 +22,8 @@ int main()
    ll t;
    cin>>t;
    while(t--)
-   {
-   
+   {int y;
+   cin>>y;
    }
    return 0;
 }
