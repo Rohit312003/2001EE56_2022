@@ -3,23 +3,28 @@ import pandas as pd
 import itertools
 import csv
 import numpy as np
+import os
 
 
 
 
 df=pd.read_csv('octant_input.csv')
+# calculating the mean value of U,V,W respectively by sing pandas inbulit functions
 meanU=df['U'].mean()
 meanV=df['V'].mean()
 meanW=df['W'].mean()
-
+#  making new colunms for U avg, V avg, W avg.
 df['U avg']=meanU
 df['V avg']=meanV
 df['W avg']=meanW
-
+#  calculating error in U,V and W.
 df['U-Uavg']=df['U']-meanU
 df['V-Vavg']=df['V']-meanV
 df['W-Wavg']=df['W']-meanW
 octant=[]
+
+
+#  calculating the Octant value .
 for (l, m, q) in zip(df['U-Uavg'],df['V-Vavg'],df['W-Wavg']):
          
      
@@ -85,27 +90,35 @@ for i in range(2):
     print()
 
 
-# creating list nmae matri
+# creating list of list name matri
 
-k=int (input("enter mod "))
+# k=int (input("enter mod "))
+# giving the value of MOD  
+k=5000
+# printing the mod value
+print("mod"+str(k))
+
 
 popoo=[]
-popoo.append("enter mod ")
+
+popoo.append("mod ")
 popoo.append(str(k))
 matri.append(popoo)
 
 
 z=int(leng/k)+1
 
-
+# no rows in output
 R = int(z)
+
+# no column is constant equal to 9
 C = int(9)
   
 # Initialize matrix
 matrix = []
 number=['1','-1','2','-2','3','-3','4','-4']
   
-# For user input
+
 zz=int(0)
 for i in range(R):          # A for loop for row entries
     a =[]
@@ -119,6 +132,7 @@ for i in range(R):          # A for loop for row entries
               u=str(i*k)+"-"+str(k*(i+1)-1) 
               a.append(u) 
      else:    # A for loop for column entries
+        # for counting the values of diffrent octant i am making a new variable count
       count=0
       for xx in range(i*k,k*(i+1)):
                if xx==leng:
@@ -145,8 +159,8 @@ for i in range(R):
 
 
 
-
-with open("file1.csv","a") as file1:
+# temprorly saving the only output file to read values of its column
+with open("file1.csv","w") as file1:
     csvWriter = csv.writer(file1,delimiter=',')
     
     csvWriter.writerows(matri)
@@ -154,24 +168,22 @@ with open("file1.csv","a") as file1:
     csvWriter.writerows(matrix)
 
 
+# reading the same file which you recently seved
+dt=pd.read_csv('file1.csv')
 
+# addding new column to the Output file
+df['Octant ID']=dt['Octant ID']
+df['  1']=dt['  1']
+df[' -1']=dt[' -1']
+df['  2']=dt['  2']
+df['  -2']=dt['  -2']
+df['  3']=dt['  3']
+df['   -3']=dt['   -3']
+df['  4']=dt['  4']
+df['  -4']=dt['  -4']
 
+# removing the opend file
+os.remove("file1.csv")
+#saving my out put as file2.csv
+df.to_csv('octant_output.csv', mode='w', header=True)
 
-
-
-df.to_csv('file1.csv', mode='a', header=True)
-
-# def octact_identification(mod=5000):
-# ###Code
-
-
-# from platform import python_version
-# ver = python_version()
-
-# if ver == "3.8.10":
-#     print("Correct Version Installed")
-# else:
-#     print("Please install 3.8.10. Instruction are present in the GitHub Repo/Webmail. Url: https://pastebin.com/nvibxmjw")
-
-# mod=5000
-# octact_identification(mod)
