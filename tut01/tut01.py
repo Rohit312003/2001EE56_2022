@@ -1,3 +1,4 @@
+# importing required libraries
 from operator import concat
 import pandas as pd
 import itertools
@@ -7,7 +8,7 @@ import os
 
 
 
-
+# reading the input csv file
 df=pd.read_csv('octant_input.csv')
 # calculating the mean value of U,V,W respectively by sing pandas inbulit functions
 meanU=df['U'].mean()
@@ -21,6 +22,7 @@ df['W avg']=meanW
 df['U-Uavg']=df['U']-meanU
 df['V-Vavg']=df['V']-meanV
 df['W-Wavg']=df['W']-meanW
+# creating a list for octant values
 octant=[]
 
 
@@ -28,7 +30,7 @@ octant=[]
 for (l, m, q) in zip(df['U-Uavg'],df['V-Vavg'],df['W-Wavg']):
          
      
-
+#   appanding the octannt values to the list
          if l>0 and m>0 and q<0:
              octant.append('-1')
          elif l>0 and m>0 and q>0:
@@ -94,13 +96,12 @@ for i in range(2):
 
 # k=int (input("enter mod "))
 # giving the value of MOD  
-k=5000
+k=700
 # printing the mod value
 print("mod"+str(k))
 
 
 popoo=[]
-
 popoo.append("mod ")
 popoo.append(str(k))
 matri.append(popoo)
@@ -121,10 +122,12 @@ number=['1','-1','2','-2','3','-3','4','-4']
 
 zz=int(0)
 for i in range(R):          # A for loop for row entries
+    # creating a list
     a =[]
      
     for j in range(C): 
      if j==0:
+        # condition for last row of output to cheak the  length of input so it stop when input length reached
          if i==R-1:
             u=str(i*k)+"-"+str(leng) 
             a.append(u) 
@@ -159,7 +162,7 @@ for i in range(R):
 
 
 
-# temprorly saving the only output file to read values of its column
+# temprorly saving matrices in file1.csv
 with open("file1.csv","w") as file1:
     csvWriter = csv.writer(file1,delimiter=',')
     
@@ -182,8 +185,8 @@ df['   -3']=dt['   -3']
 df['  4']=dt['  4']
 df['  -4']=dt['  -4']
 
-# removing the opend file
+# removing the opend file1.csv file
 os.remove("file1.csv")
-#saving my out put as file2.csv
+#saving my output in csv
 df.to_csv('octant_output.csv', mode='w', header=True)
 
