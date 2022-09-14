@@ -96,7 +96,7 @@ for i in range(2):
 
 # k=int (input("enter mod "))
 # giving the value of MOD  
-k=700
+k=5000
 # printing the mod value
 print("mod"+str(k))
 
