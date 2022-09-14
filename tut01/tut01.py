@@ -92,7 +92,7 @@ k=int (input("enter mod "))
 popoo=[]
 popoo.append("enter mod ")
 popoo.append(str(k))
-
+matri.append(popoo)
 
 
 z=int(leng/k)+1
@@ -146,15 +146,20 @@ for i in range(R):
 
 
 
-# with open("file1.csv","w+") as file1:
-#     csvWriter = csv.writer(file1,delimiter=',')
+with open("file1.csv","a") as file1:
+    csvWriter = csv.writer(file1,delimiter=',')
     
-#     csvWriter.writerows(matri)
-#     csvWriter.writerows(popoo)
-#     csvWriter.writerows(matrix)
+    csvWriter.writerows(matri)
+    
+    csvWriter.writerows(matrix)
 
 
-# df.to_csv('file1.csv', mode='a', header=False)
+
+
+
+
+
+df.to_csv('file1.csv', mode='a', header=True)
 
 # def octact_identification(mod=5000):
 # ###Code
