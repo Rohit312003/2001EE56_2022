@@ -49,9 +49,9 @@ sheet.cell(row=2, column=7).value =meanW
 
 
 
-book.save("input_octant_longest_subsequence.xlsx")
+book.save("output_octant_longest_subsequence.xlsx")
 
-df = pd.read_excel('input_octant_longest_subsequence.xlsx')
+df = pd.read_excel('output_octant_longest_subsequence.xlsx')
                                                                  #  calculating error in U,V and W.
 df['U-Uavg']=df['U']-meanU
 df['V-Vavg']=df['V']-meanV
@@ -79,11 +79,11 @@ for (l, m, q) in zip(df['U-Uavg'],df['V-Vavg'],df['W-Wavg']):     #   appanding 
 df['octant'] = octant
 
 
-with pd.ExcelWriter('input_octant_longest_subsequence.xlsx') as writer:
+with pd.ExcelWriter('output_octant_longest_subsequence.xlsx') as writer:
     df.to_excel(writer, sheet_name='Sheet_name_1',index=False)
 print("sucssesfully done!")
 
-book = load_workbook(filename="input_octant_longest_subsequence.xlsx")
+book = load_workbook(filename="output_octant_longest_subsequence.xlsx")
  
 #open workbook
 sheet = book.active
@@ -182,4 +182,4 @@ for i in range(2,10):
 
 
 
-book.save("input_octant_longest_subsequence.xlsx")
+book.save("output_octant_longest_subsequence.xlsx")
