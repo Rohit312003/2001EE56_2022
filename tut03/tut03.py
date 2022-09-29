@@ -1,6 +1,7 @@
 
 
 
+from ast import Try
 from operator import concat
 import pandas as pd
 from openpyxl.styles.borders import Border, Side
@@ -13,7 +14,11 @@ from openpyxl import load_workbook
 
  
 #load excel file
-book = load_workbook(filename="input_octant_longest_subsequence.xlsx")
+try:
+     book = load_workbook(filename="input_octant_longest_subsequence.xlsx")
+except:
+     print("unable to find the input file")
+     exit()
  
 #open workbook
 sheet = book.active
@@ -25,14 +30,21 @@ thin_border = Border(left=Side(style='thin'),
                      bottom=Side(style='thin'))
 
 # ------------------------------------------------taking input file---------------------------------------------------------------
-                                                                  #reading the input file and storing its value in the df 
-df = pd.read_excel('input_octant_longest_subsequence.xlsx')
+try:
+                                                                      #reading the input file and storing its value in the df 
+     df = pd.read_excel('input_octant_longest_subsequence.xlsx')
+except:
+     print("unable to find the input file")
+     exit()
 
 print("Column headings:")
 print(df)
-meanU=df['U'].mean()
-meanV=df['V'].mean()
-meanW=df['W'].mean()
+try:
+     meanU=df['U'].mean()
+     meanV=df['V'].mean()
+     meanW=df['W'].mean()
+except:
+     print("unable to find the mean")
 
 sheet = book.active
 
