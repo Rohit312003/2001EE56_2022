@@ -7,7 +7,10 @@ import numpy as np
 import os
 from openpyxl import load_workbook  
 # ------------------------------------------------taking input file---------------------------------------------------------------
-wb = load_workbook('input_octant_transition_identify.xlsx')  
+try:
+    wb = load_workbook('input_octant_transition_identify.xlsx')  
+except:
+    print("not able to load input file!")
 sheet_obj = wb.active
                                                                   #reading the input file and storing its value in the df 
 df = pd.read_excel('input_octant_transition_identify.xlsx')
@@ -93,7 +96,15 @@ for i in range(2):
 # -----------------------------------------------below we giving the MOD value for making slots-------------------------------------------------
                                                                 # giving the value of MOD  
 k=5000
-zo=k
+try:
+    if k<leng:
+        zo=k
+    else:
+        print("mod is too larg!")
+except:
+    print("mod is not valid")
+    exit()
+
                                                                 # printing the mod value
 print("mod"+str(k))
 
@@ -374,6 +385,6 @@ for i in range(0,leng):
     if df['Octant ID'][i]=='1':
          df['_'][i]='From'
 # ------------------------------------------saving out data frame as xlsx file--------------------------------------------------------
-with pd.ExcelWriter('output_octant_transition_identify.xlsx') as writer:
-    df.to_excel(writer, sheet_name='Sheet_name_1')
-print("sucssesfully done!")
+with pd.ExcelWriter('output_octant_transition_identify.xlsx',index=False) as writer:
+    df.to_excel(writer, sheet_name='Sheet_name_1',index=False)
+print("sucssesfully done!") 

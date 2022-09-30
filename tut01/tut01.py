@@ -188,4 +188,4 @@ df['  -4']=dt['  -4']
 # removing the opend file1.csv file
 os.remove("file1.csv")
 #saving my output in csv
-df.to_csv('octant_output.csv', mode='w', header=True)
+df.to_csv('octant_output.csv', mode='w', header=True,index=False)
