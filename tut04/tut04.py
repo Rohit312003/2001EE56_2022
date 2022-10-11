@@ -6,9 +6,6 @@ from operator import concat
 import pandas as pd
 from openpyxl.styles.borders import Border, Side
 from openpyxl import load_workbook
-
-
- 
 #load excel file
 try:
      book = load_workbook(filename="input_octant_longest_subsequence_with_range.xlsx")
@@ -59,8 +56,6 @@ sheet.cell(row=2, column=6).value =meanV
 
 sheet.cell(row=1, column=7).value ="Wavg"
 sheet.cell(row=2, column=7).value =meanW 
-
-
 # saving the output to the output file
 book.save("output_octant_longest_subsequence_with_range.xlsx")
 # reading the same saved output value to new again and store it into df
@@ -115,7 +110,7 @@ sheet.cell(row=2, column=14).border = thin_border
 
 sheet.cell(row=2, column=15).value ="Count"
 sheet.cell(row=2, column=15).border = thin_border
-
+# making our desire matrix having desired heading
 sheet.cell(row=2, column=17).value ="Count"
 sheet.cell(row=2, column=17).border = thin_border
 
@@ -124,7 +119,7 @@ sheet.cell(row=2, column=18).border = thin_border
 
 sheet.cell(row=2, column=19).value ="Count"
 sheet.cell(row=2, column=19).border = thin_border
-# below code is for calculating the longest subsequence ans its count
+# ----------------------below code is for calculating the longest subsequence ans its count---------------------
 countp=1
 countn=-1
 
@@ -204,24 +199,23 @@ for i in range(3,11):
                
                
                countn=countn-1  
+# -------------------below code for calculating the longest subsequence ans its count  with time included--------------------------------------------------------
 
-
-
-
-
-
+#  making a new variable to keep track of column so that i can easly add new columns
 star=3
 for i in range(1,5):
      
      for j in range(17,18):
           # for the +1,+2,+3,+4
           if j==17 :
+
                sheet.cell(row=star, column=j).value =1*i
                sheet.cell(row=star, column=j).border = thin_border
              
                maxo=0
                count=0
                t=0
+               # below code for calulating the max subsequence length
                for k in df['octant']:
                     if k==i:
                          t=t+1
@@ -231,7 +225,7 @@ for i in range(1,5):
                     if(maxo<t):
                          maxo=t
                     
-                    
+               # below code for calulating the no frequency for occurence max subsequence length   
                for k in df['octant']:
                     if k==i:
                          t=t+1
@@ -248,20 +242,25 @@ for i in range(1,5):
                sheet.cell(row=star, column=j+2).value =count
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
-
+               # increasing the value of varble to keep track of no. columns
                star=star+1
+
+               # adding the new row 
+               # for time to from.
                sheet.cell(row=star, column=j).value ="Time"
                # adding the border to it
                sheet.cell(row=star, column=j).border = thin_border
-                # adding the longest subsequece in the matrix
                sheet.cell(row=star, column=j+1).value ="From"
                # adding the border to it
                sheet.cell(row=star, column=j+1).border = thin_border
-               # no times the longest susequence appears in the octant matrix
                sheet.cell(row=star, column=j+2).value ="To"
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
+                # increasing the value of varble to keep track of no. columns
                star=star+1
+
+               # below code for finding where the max subsequnce length starts and ends.
+               # below variable to keep track no itrations whilch halps to find the dirst occurence of an element ifrom the max subsequence length
                qq=0
                for k in df['octant']:
                     qq=qq+1
@@ -279,10 +278,12 @@ for i in range(1,5):
                          sheet.cell(row=star, column=j+2).value =df['Time'][qq-1]
                          # adding the border to it
                          sheet.cell(row=star, column=j+2).border = thin_border
+
+                          # increasing the value of varble to keep track of no columns
                          star=star+1
                          
                     
-           # for the -1,-2,-3,-4  
+          # same code as above only for negatve of i or(if above is for 1 than this below code is for -1 and so on).
           if j==17 :
                i=-1*i
                sheet.cell(row=star, column=j).value =1*i
@@ -317,20 +318,25 @@ for i in range(1,5):
                sheet.cell(row=star, column=j+2).value =count
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
-
+                 # increasing the value of varble to keep track of no columns
                star=star+1
+
+               # adding the new row 
+               # for time to from.
                sheet.cell(row=star, column=j).value ="Time"
                # adding the border to it
                sheet.cell(row=star, column=j).border = thin_border
-                # adding the longest subsequece in the matrix
                sheet.cell(row=star, column=j+1).value ="From"
                # adding the border to it
                sheet.cell(row=star, column=j+1).border = thin_border
-               # no times the longest susequence appears in the octant matrix
                sheet.cell(row=star, column=j+2).value ="To"
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
+               # increasing the value of varble to keep track of no columns
                star=star+1
+
+               # below code for finding where the max subsequnce length starts and ends.
+               # below variable to keep track no itrations whilch halps to find the dirst occurence of an element ifrom the max subsequence length
                qq=0
                for k in df['octant']:
                     qq=qq+1
@@ -350,11 +356,8 @@ for i in range(1,5):
                          sheet.cell(row=star, column=j+2).border = thin_border
                          star=star+1
                          
-                    
-          
-           # for the -1,-2,-3,-4 
+                         
      i=-1*i 
               
-
 # saving the final output file
 book.save("output_octant_longest_subsequence_with_range.xlsx")
