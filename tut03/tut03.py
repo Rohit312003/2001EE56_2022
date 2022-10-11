@@ -111,7 +111,7 @@ sheet.cell(row=1, column=13).value ="Count"
 sheet.cell(row=1, column=13).border = thin_border
 
 sheet.cell(row=1, column=14).value ="Longest Subsquence Length"
-sheet.cell(row=1, column=13).border = thin_border
+sheet.cell(row=1, column=14).border = thin_border
 
 sheet.cell(row=1, column=15).value ="Count"
 sheet.cell(row=1, column=15).border = thin_border
