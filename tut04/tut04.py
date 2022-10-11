@@ -258,7 +258,7 @@ for i in range(1,5):
                # adding the border to it
                sheet.cell(row=star, column=j+1).border = thin_border
                # no times the longest susequence appears in the octant matrix
-               sheet.cell(row=star, column=j+2).value ="TO"
+               sheet.cell(row=star, column=j+2).value ="To"
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
                star=star+1
@@ -276,7 +276,7 @@ for i in range(1,5):
                          sheet.cell(row=star, column=j+1).value =df['Time'][qq-maxo]
                          # adding the border to it
                          sheet.cell(row=star, column=j+1).border = thin_border
-                         sheet.cell(row=star, column=j+2).value =df['Time'][qq]
+                         sheet.cell(row=star, column=j+2).value =df['Time'][qq-1]
                          # adding the border to it
                          sheet.cell(row=star, column=j+2).border = thin_border
                          star=star+1
@@ -327,7 +327,7 @@ for i in range(1,5):
                # adding the border to it
                sheet.cell(row=star, column=j+1).border = thin_border
                # no times the longest susequence appears in the octant matrix
-               sheet.cell(row=star, column=j+2).value ="TO"
+               sheet.cell(row=star, column=j+2).value ="To"
                # adding the border to it
                sheet.cell(row=star, column=j+2).border = thin_border
                star=star+1
@@ -345,7 +345,7 @@ for i in range(1,5):
                          sheet.cell(row=star, column=j+1).value =df['Time'][qq-maxo]
                          # adding the border to it
                          sheet.cell(row=star, column=j+1).border = thin_border
-                         sheet.cell(row=star, column=j+2).value =df['Time'][qq]
+                         sheet.cell(row=star, column=j+2).value =df['Time'][qq-1]
                          # adding the border to it
                          sheet.cell(row=star, column=j+2).border = thin_border
                          star=star+1
