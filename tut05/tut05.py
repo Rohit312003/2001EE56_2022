@@ -186,8 +186,8 @@ sheet.cell(row=2, column=29).border = thin_border
 sheet.cell(row=2, column=30).value ="Rank1 Octant ID"
 sheet.cell(row=2, column=30).border = thin_border
 
-sheet.cell(row=2, column=30).value ="Rank1 Octant Name"
-sheet.cell(row=2, column=30).border = thin_border
+sheet.cell(row=2, column=31).value ="Rank1 Octant Name"
+sheet.cell(row=2, column=31).border = thin_border
 # below code is for calculating the longest subsequence ans its count
 sheet.cell(row=3, column=13).value ="Overall Count"
 sheet.cell(row=3, column=13).border = thin_border
@@ -311,6 +311,7 @@ for i in range(R):
     kk=8
     q=0
     dict2 ={}
+    dict3={1:"Internal outward interaction",-1:"External outward interaction",2:"External Ejection",-2:"Internal Ejection",3:"External inward interaction",-3:"Internal inward interaction",4:"Internal sweep",-4:"External sweep"}
     for key in dict1:
 
           dict2[dict1[key]]=kk
@@ -331,6 +332,9 @@ for i in range(R):
                q=-1*qq 
           sheet.cell(row=i+5, column=30).value =q
           sheet.cell(row=i+5, column=30).border = thin_border
+    
+    sheet.cell(row=i+5, column=31).value =dict3[q]
+    sheet.cell(row=i+5, column=31).border = thin_border
 
     print(dict2)
  
