@@ -1,0 +1,8 @@
+a.append(df['octant'].value_counts()['1'])
+# a.append(df['octant'].value_counts()['-1'])
+# a.append(df['octant'].value_counts()['2'])
+# a.append(df['octant'].value_counts()['-2'])
+# a.append(df['octant'].value_counts()['3'])
+# a.append(df['octant'].value_counts()['-3'])
+# a.append(df['octant'].value_counts()['4'])
+# a.append(df['octant'].value_counts()['-4'])
