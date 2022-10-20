@@ -1,0 +1,1 @@
+df['Timestamp'] = pd.to_datetime(df['Timestamp'], format='%d/%m/%y %H:%M:%S')

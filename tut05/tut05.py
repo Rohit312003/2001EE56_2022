@@ -243,8 +243,12 @@ for k in range(1,5):
         q=k 
     if(dict2[-1*k]==1):
         q=k 
+
+dict0={1:"Internal outward interaction",-1:"External outward interaction",2:"External Ejection",-2:"Internal Ejection",3:"External inward interaction",-3:"Internal inward interaction",4:"Internal sweep",-4:"External sweep"}
 sheet.cell(row=3, column=30).value =q
 sheet.cell(row=3, column=30).border = thin_border
+sheet.cell(row=3, column=31).value =dict0[q]
+sheet.cell(row=3, column=31).border = thin_border
   
 
 leng=df['octant'].count()
@@ -275,6 +279,7 @@ numb=[1,-1,2,-2,3,-3,4,-4]
   
 
 zz=int(0)
+dict5={"Internal outward interaction":0,"External outward interaction":0,"External Ejection":0,"Internal Ejection":0,"External inward interaction":0,"Internal inward interaction":0,"Internal sweep":0,"External sweep":0}
 for i in range(R):
                # A for loop for row entries
     # creating a list
@@ -304,10 +309,11 @@ for i in range(R):
         sheet.cell(row=i+5, column=j).value =count
         sheet.cell(row=i+5, column=j).border = thin_border
 
-    
+   
     
 
     dict1 = OrderedDict(sorted(dict.items()))
+    
     kk=8
     q=0
     dict2 ={}
@@ -334,9 +340,50 @@ for i in range(R):
           sheet.cell(row=i+5, column=30).border = thin_border
     
     sheet.cell(row=i+5, column=31).value =dict3[q]
+    dict5[dict3[q]]+=1
     sheet.cell(row=i+5, column=31).border = thin_border
 
-    print(dict2)
+
+
+
+RR=R+8
+colnew=14
+print(dict5)
+
+sheet.cell(row=RR, column=14).value ="Octant ID"
+sheet.cell(row=RR, column=14).border = thin_border
+
+sheet.cell(row=RR, column=15).value ="Octant Name "
+sheet.cell(row=RR, column=15).border = thin_border
+
+sheet.cell(row=RR, column=16).value ="Count of Rank 1 Mod Values"
+sheet.cell(row=RR, column=16).border = thin_border
+RR+=1
+for i in range(1,5):
+
+     sheet.cell(row=RR, column=14).value =i
+     sheet.cell(row=RR, column=14).border = thin_border
+
+     sheet.cell(row=RR, column=15).value =dict3[i]
+     sheet.cell(row=RR, column=15).border = thin_border
+
+     sheet.cell(row=RR, column=16).value =dict5[dict3[i]]
+     sheet.cell(row=RR, column=16).border = thin_border
+     RR+=1
+     sheet.cell(row=RR, column=14).value =-1*i
+     sheet.cell(row=RR, column=14).border = thin_border
+
+     sheet.cell(row=RR, column=15).value =dict3[-1*i]
+     sheet.cell(row=RR, column=15).border = thin_border
+
+     sheet.cell(row=RR, column=16).value =dict5[dict3[-1*i]]
+     sheet.cell(row=RR, column=16).border = thin_border
+
+     RR+=1
+
+     
+
+print(dict2)
  
 
 
@@ -352,8 +399,7 @@ for i in range(R):
 # a.append(df['octant'].value_counts()['-3'])
 # a.append(df['octant'].value_counts()['4'])
 # a.append(df['octant'].value_counts()['-4'])
-countp=1
-countn=-1
+
 
 # for i in range(2,10):
      
