@@ -7,7 +7,16 @@ import numpy as np
 import os
 from datetime import datetime
 from csv import writer
-
+from email.mime.multipart import MIMEMultipart
+from email.mime.application import MIMEApplication
+from email.mime.text import MIMEText
+import email, smtplib, ssl
+from email import encoders
+from email.mime.base import MIMEBase
+from IPython.display import display, HTML
+import datetime  
+from datetime import date 
+import smtplib
 
 # reading the input csv file
 df=pd.read_csv('input_attendance.csv')
@@ -16,47 +25,48 @@ dt=pd.read_csv('input_registered_students.csv')
 
 k=df['Attendance'].isnull().sum()  
 print(k)
-
-                                                                                                                
-
+                                                                                                            
+# some the value are missing so i have to remove those values from my data set
 df['Attendance'].replace('', np.nan, inplace=True)
 print(df)
 df.dropna(subset=['Attendance'], inplace=True)
 print(df)
 
-
+# after removing the Null values we again reading the data set with no null values
 df.to_csv('input_attendance.csv', mode='w', header=True,index=False)
 df=pd.read_csv('input_attendance.csv')
 
 # dropping null value columns to avoid errors
 df.dropna(inplace = True)
- 
+#  in the below code we extracting the date and time from timestamp
 # new data frame with split value columns
 new = df["Timestamp"].str.split(" ", n = 1, expand = True)
-
+# spliting the attendance column into roll no and name column
 rollna = df["Attendance"].str.split(" ", n = 1, expand = True)
 df["Roll"]=rollna[0]
 df["Name"]=rollna[1]
-# making separate first name column from new data frame
+# making separate first name column for roll no from new data frame
 df["Date"]= new[0]
  
-# making separate last name column from new data frame
+# making separate last name column for name from new data frame
 df["time"]= new[1]
 
+# extracting the hours from time column
 hour = df["time"].str.split(":", n = 1, expand = True)
 df['hour']=hour[0]
  
-# Dropping old Name columns
+# Dropping old attendance and time columns
 
 df.drop(columns =["time"], inplace = True)
 df.drop(columns =["Attendance"], inplace = True)
-# df display
 
-import datetime  
-from datetime import date 
+#  in the name and roll no column may values are in lower and uper case so we make all the values in upper case
+
 df['Name'] = df['Name'].str.upper()
 df['Roll'] = df["Roll"].str.upper()
 a=[]
+
+# in the below code we are trying to know the day wether  it is monday or thrusday or any other day
 
 for x in df["Date"]:
     date=x
@@ -67,8 +77,6 @@ for x in df["Date"]:
 df["days"]=a
 
 leng=df["Date"].count()
-
-
 
 
 
@@ -141,18 +149,6 @@ dkk=pd.read_csv('output\\attendance_report_duplicate.csv')
 dkk.drop_duplicates(inplace=True)
 dkk.to_csv('output\\attendance_report_duplicate.csv', mode='w', header=True,index=False)            
                       
-
-
-
-                            
-                        
-                    
-    
-
-
-
-
-
 df.to_csv('output\Attendance_report_consolidated.csv', mode='w', header=True,index=False)
 dk=pd.read_csv('output\Attendance_report_consolidated.csv')
 
@@ -160,6 +156,22 @@ List = ['Roll', 'Name', 'total_lecture_taken', 'attendance_count_actual', 'atten
  
 # Open our existing CSV file in append mode
 # Create a file object for this file
+
+count=0
+dayy=" "
+for i,j in zip(df['days'],df['Date']):
+
+    print(i)
+    if(j!=dayy and (i=="Thursday" or i=="Monday")):
+        dayy=i
+        count+=1
+
+
+
+
+print("akjshbdlijebfqbef")
+print(count)
+
 
 
 total_attend=14
@@ -281,23 +293,15 @@ for k in range(0,dp['Roll'].count()):
     k+=1
 
 
-from email.mime.multipart import MIMEMultipart
-from email.mime.application import MIMEApplication
-from email.mime.text import MIMEText
-import email, smtplib, ssl
-from email import encoders
-from email.mime.base import MIMEBase
 
-import smtplib
 
 def send_email():                                                                           # Function to send email to cs3842022@gmail.com
         try:
             subject = "Consolidated Attendace Report"                                           
-            body = "The report is attached with this mail."
             sender_email = input("Enter sender email : ")                                       # Sender e-mail
-            receiver_email = "parashuramyadav670@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
+            receiver_email = "cs3842022@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
             password = input("Type your password and press enter:")                             # Password of sender e-mail
-
+            body = "The report is attached "
             # Create a multipart message and set headers
             message = MIMEMultipart()                                                       
             message["From"] = sender_email
@@ -334,7 +338,9 @@ def send_email():                                                               
             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
                 server.login(sender_email, password)
                 server.sendmail(sender_email, receiver_email, text)
+                print("succsessfully sended the file :)")
         except:
-            print("Error in sending the file.")
+           
+            print("Error in sending the file.")
 send_email()
 # tbvvrtbtmqivlliq
