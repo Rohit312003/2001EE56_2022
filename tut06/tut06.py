@@ -67,11 +67,11 @@ df['Roll'] = df["Roll"].str.upper()
 a=[]
 
 # in the below code we are trying to know the day wether  it is monday or thrusday or any other day
-
+print(df["Date"])
 for x in df["Date"]:
     date=x
 
-    day, month, year = date.split('/')     
+    day, month, year = date.split('-')     
     day_name = datetime.date(int(year), int(month), int(day)) 
     a.append(day_name.strftime("%A"))
 df["days"]=a
@@ -81,100 +81,59 @@ leng=df["Date"].count()
 
 
 
+# importing packages
 
-with open('output\\attendance_report_duplicate.csv','w') as f_object:
- 
-    # Pass this file object to csv.writer()
-            # and get a writer object
-    writer_object = writer(f_object)
-    list=["Timestamp","Roll No","Name","Total count of attendance on that day"]
-    writer_object.writerow(list)    
-            # Pass the list as an argument into
-            # the writerow()
-    print("kk")       
-    for (qq,ww,j) in zip(df['Date'],df['days'],df['hour']):
-        
-        if (ww=="Thursday" or ww=="Monday"):
-            rr=int(j)
-            try:
-                if(rr==14):
-                    
-                    fqd={}
-                    fqdt={}
-                    
-                    for i in dt["Roll No"]:
-                            try:
-                            
-                                
-                                fqd[i]=0
-                                fqdt[i]=-1
-                            except:
-                                print("error in line no 97")    
-                            
-                    qw=0
-                    
-                    for i in df["Date"]:
-                        try:
-                            if qq==i and rr==int(df['hour'][qw]):
-                                
-                                fqd[df['Roll'][qw]]+=1
+  
+# range of timestamps
+k = pd.date_range(start=df["Timestamp"].iloc[0],
+                                end=df["Timestamp"].iloc[-1])
 
-                                if fqd[df['Roll'][qw]]==1:
-                                    fqdt[df['Roll'][qw]]=df['Timestamp'][qw]
-                        except:
-                                print(df['Roll'][qw]," note found"," error in line no 107")
-                        qw+=1
-                    
-                    qw=0
-                    try:
-                        for i in dt["Roll No"]:
-                            z=[]
-                            if fqd[i]>1:
-                                
-                                z.append(fqdt[i])
-                                z.append(i)
-                                z.append(dt['Name'][qw])
-                                z.append(fqd[i])
-                                writer_object.writerow(z)
-                            qw+=1   
-            
-                    except:
-                        print("error")
-            except:
-                    print("error in j")
+dato=[]
+ak=[]
+for i in k:
+    
+    az=str(i).split(" ")
+    dato.append(i.strftime('%d-%m-20%y'))
+    
+    d = pd.Timestamp(az[0])
+    ak.append(d.day_name())
+    
 
-    f_object.close()
-   
-dkk=pd.read_csv('output\\attendance_report_duplicate.csv')
-dkk.drop_duplicates(inplace=True)
-dkk.to_csv('output\\attendance_report_duplicate.csv', mode='w', header=True,index=False)            
-                      
-df.to_csv('output\Attendance_report_consolidated.csv', mode='w', header=True,index=False)
-dk=pd.read_csv('output\Attendance_report_consolidated.csv')
 
-List = ['Roll', 'Name', 'total_lecture_taken', 'attendance_count_actual', 'attendance_count_fake','attendance_count_absent','Percentage (attendance_count_actual/total_lecture_taken) 2 digit decimal']
- 
-# Open our existing CSV file in append mode
-# Create a file object for this file
+for i,j in zip(dato,ak):
+    print(i,j)
 
-count=0
-dayy=" "
-for i,j in zip(df['days'],df['Date']):
+df.to_excel('ouyputt.xlsx',index=False)
 
-    print(i)
-    if(j!=dayy and (i=="Thursday" or i=="Monday")):
-        dayy=i
-        count+=1
+
+
+dataf=[]
+ann=[]
 
 
 
 
-print("akjshbdlijebfqbef")
-print(count)
+# Pass the list as an argument into
+datee=[]
+total_lec=0
+datee.append("Roll NO")
+datee.append("Name")
+rr=" "
+for i,j in zip(dato,ak):
+    if(j=='Thursday'or j=='Monday'):
+        if i!=rr:
+            rr=i
+            total_lec+=1
+            datee.append(i)
+            ann.append(i)
 
 
+datee.append("Actual Lecture Taken") 
+datee.append("Total Real")
+datee.append("% Attendance") 
 
-total_attend=14
+
+print(datee)
 with open('output\Attendance_report_consolidated.csv','w') as f_object:
  
     # Pass this file object to csv.writer()
@@ -183,164 +142,227 @@ with open('output\Attendance_report_consolidated.csv','w') as f_object:
  
     # Pass the list as an argument into
     # the writerow()
-    writer_object.writerow(List)
- 
-        # Close the file object
-
-
-
-
-
-
-    q=" "
-    k=0
-    fq={}
-    fqfake={}
+    writer_object.writerow(datee)
     
-    
-    for i in dk["days"]:
-        if (i=="Thursday" or i=="Monday"):
-            
-                
-                fq[dk["Roll"][k]]=0
-                fqfake[dk["Roll"][k]]=0
-               
-        
-
-        k+=1
-
-    k=0
-    dk["countooo"]=0
-    a=[]
-    for (i,j,e) in zip(dk["days"],dk["hour"],df["Name"]):
-            fqfake[dk["Roll"][k]] +=1
-            if (i=="Thursday" or i=="Monday" ):
-            
-                if(j==14 and q!=e):
-                    q=e 
-                    fq[dk["Roll"][k]] +=1
-                    
-                    dk["countooo"][k]=fq[dk["Roll"][k]]
-                
-            k+=1
-    k=0
-    for j in dt['Roll No']:
-        try:  
-            a=[]
-            a.append(dt['Roll No'][k])
-            a.append(dt['Name'][k])
-            a.append(total_attend)
-            a.append(fq[j])
-            a.append(fqfake[j]-fq[j])
-            a.append(total_attend-fq[j])
-            a.append(round((fq[j]*100)/total_attend,2))
-             
-            writer_object.writerow(a)
-            print(fq[j])
-        except:
-            a=[]
-            a.append(dt['Roll No'][k])
-            a.append(dt['Name'][k])
-            try:
-                a.append(total_attend)
-            except:
-                a.append(0)
-            try:
-                a.append(fq[j])
-            except:
-                a.append(0)
-
-            try:
-                a.append(fqfake[j]-fq[j])
-            except:
-                a.append(0)
-            a.append(14)
-            a.append(0)
-            
-
-            writer_object.writerow(a)
-            print(j+"error")
-        k+=1
-
-            
-        
-    f_object.close()
-       
-dk=pd.read_csv('output\Attendance_report_consolidated.csv')
-dk['Name'].replace('', np.nan, inplace=True)
-print(dk)
-dk.dropna(subset=['Name'], inplace=True)
-dk.to_csv('output\Attendance_report_consolidated.csv', mode='w', header=True,index=False)
-dp=pd.read_csv('output\Attendance_report_consolidated.csv')
 
 
-for k in range(0,dp['Roll'].count()):
-    
-    with open('output\\'+(str)(dp['Roll'][k]+'.csv'),'w') as f_object:
  
     # Pass this file object to csv.writer()
-    # and get a writer objet
-          writer_object = writer(f_object)
-          List1 = ['Roll', 'Name', 'total_lecture_taken', 'attendance_count_actual', 'attendance_count_fake','attendance_count_absent','Percentage (attendance_count_actual/total_lecture_taken) 2 digit decimal']
-          writer_object.writerow(List1)
-          List2=[dp['Roll'][k],dp['Name'][k],dp['total_lecture_taken'][k],dp['attendance_count_fake'][k],dp['attendance_count_absent'][k],dp['Percentage (attendance_count_actual/total_lecture_taken) 2 digit decimal'][k]]
-          
+    # and get a writer object
+    
  
     # Pass the list as an argument into
     # the writerow()
-          writer_object.writerow(List2)
-          f_object.close()
-    k+=1
+    for k,l in zip(dt['Roll No'],dt['Name']):
+            list=[]
+            list.append(k)
+            list.append(l)
+            realtek=0
+            for i in ann:
+                flag=0
+                for j,e,o in zip(df["Date"],df["hour"],df["Roll"]):
+
+                    if i==j and e=="14" and k==o:
+                        list.append("P")
+                        realtek+=1
+                        flag=1
+                        break
+                        
+
+                if flag==0:
+                    list.append("A")
+  
+            list.append(total_lec) 
+            list.append(realtek)
+            list.append(round((((realtek)/total_lec)*100),2))            
+            writer_object.writerow(list)
+            
+
+    f_object.close()
+
+dk=pd.read_csv('output\\attendance_report_consolidated.csv')
+dk['Name'].replace('', np.nan, inplace=True)
+print(dk)
+dk.dropna(subset=['Name'], inplace=True)
+dk.to_excel('output\\attendance_report_consolidated.xlsx',index=False)
+
+os.remove('output\\attendance_report_consolidated.csv')
+
+
+# inmporting nessesry libreries
+from ast import Try
+from operator import concat
+import pandas as pd
+from openpyxl.styles.borders import Border, Side
+from openpyxl import load_workbook
+#load excel file
 
 
 
 
-def send_email():                                                                           # Function to send email to cs3842022@gmail.com
-        try:
-            subject = "Consolidated Attendace Report"                                           
-            sender_email = input("Enter sender email : ")                                       # Sender e-mail
-            receiver_email = "cs3842022@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
-            password = input("Type your password and press enter:")                             # Password of sender e-mail
-            body = "The report is attached "
-            # Create a multipart message and set headers
-            message = MIMEMultipart()                                                       
-            message["From"] = sender_email
-            message["To"] = receiver_email
-            message["Subject"] = subject
-            message["Bcc"] = receiver_email  # Recommended for mass emails
+# import xlsxwriter module
+import xlsxwriter
+ 
+# Workbook() takes one, non-optional, argument
+# which is the filename that we want to create.
+for i in dt["Roll No"]:
+            workbook = xlsxwriter.Workbook("output\\"+i+".xlsx")
+            
+            # The workbook object is then used to add new
+            # worksheet via the add_worksheet() method.
+            worksheet = workbook.add_worksheet()
+            
+            # Use the worksheet object to write
+            # data via the write() method.
+            worksheet.write('A1', 'Hello..')
+            worksheet.write('B1', 'Geeks')
+            worksheet.write('C1', 'For')
+            worksheet.write('D1', 'Geeks')
+            
+            # Finally, close the Excel file
+            # via the close() method.
+            workbook.close()
+ 
+#definging the property of border
+thin_border = Border(left=Side(style='thin'), 
+                     right=Side(style='thin'), 
+                     top=Side(style='thin'), 
+                     bottom=Side(style='thin'))
+for k,l in zip(dt['Roll No'],dt['Name']):
+            
+                er=k 
+                book = load_workbook(filename="output\\"+er+".xlsx")
+                sheet = book.active
+                sheet.cell(row=1, column=1).value ="Date"
+                sheet.cell(row=1, column=2).value ="Roll No"
+                sheet.cell(row=1, column=3).value ="Name"
+                sheet.cell(row=1, column=4).value ="Total Attendance Count"
+                sheet.cell(row=1, column=5).value ="Real"
+                sheet.cell(row=1, column=6).value ="Duplicate"
+                sheet.cell(row=1, column=7).value ="Invalid"
+                sheet.cell(row=1, column=8).value ="Absent"
+                sheet.cell(row=2, column=2).value =k
+                sheet.cell(row=2, column=3).value =l
+                aw=3
+                
+                for i in ann:
+                    
+                    
+                    sheet.cell(row=aw, column=1).value =i
+                    flag=0
+                    count=0
+                    invalid=0
+                    for j,e,o in zip(df["Date"],df["hour"],df["Roll"]):
 
-            # Add body to email
-            message.attach(MIMEText(body, "plain"))
+                        if i==j and e=="14" and k==o:
+                            count+=1
+                            
+                            
+                        elif i==j and k==o: 
+                            invalid+=1
+                    sheet.cell(row=aw, column=4).value =count+invalid
+                    if count>0:
+                        sheet.cell(row=aw, column=5).value =1
+                        sheet.cell(row=aw, column=6).value =count-1
+                        sheet.cell(row=aw, column=8).value =0
+                    else:
+                        sheet.cell(row=aw, column=5).value =0
+                        sheet.cell(row=aw, column=6).value =0
+                        sheet.cell(row=aw, column=8).value =1
+                    
+                    
+                    sheet.cell(row=aw, column=7).value =invalid      
+                    aw+=1
+                    
+                    book.save("output\\"+er+".xlsx")   
+            
+            
+               
+                
+            
+            #open workbook
+            
 
-            filename = "output\Attendance_report_consolidated.csv"  # In same directory as script
 
-            # Open csv file in binary mode
-            with open(filename, "rb") as attachment:
-                # Add file as application/octet-stream
-                # Email client can usually download this automatically as attachment
-                part = MIMEBase("application", "octet-stream")
-                part.set_payload(attachment.read())
 
-            # Encode file in ASCII characters to send by email    
-            encoders.encode_base64(part)
 
-            # Add header as key/value pair to attachment part
-            part.add_header(
-                "Content-Disposition",
-                f"attachment; filename= {filename}",
-            )
-            # Add attachment to message and convert message to string
-            message.attach(part)
-            text = message.as_string()
 
-            # Log in to server using secure context and send email
-            context = ssl.create_default_context()
-            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-                server.login(sender_email, password)
-                server.sendmail(sender_email, receiver_email, text)
-                print("succsessfully sended the file :)")
-        except:
+            
+
+# ------------------------------------------------taking input file---------------------------------------------------------------
+# appling try and except for  checking the file 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     
+    
+# the writerow()
+
+
+
+
+
+
+# def send_email():                                                                           # Function to send email to cs3842022@gmail.com
+#         try:
+#             subject = "Consolidated Attendace Report"                                           
+#             sender_email = input("Enter sender email : ")                                       # Sender e-mail
+#             receiver_email = "cs3842022@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
+#             password = input("Type your password and press enter:")                             # Password of sender e-mail
+#             body = "The report is attached "
+#             # Create a multipart message and set headers
+#             message = MIMEMultipart()                                                       
+#             message["From"] = sender_email
+#             message["To"] = receiver_email
+#             message["Subject"] = subject
+#             message["Bcc"] = receiver_email  # Recommended for mass emails
+
+#             # Add body to email
+#             message.attach(MIMEText(body, "plain"))
+
+#             filename = "output\Attendance_report_consolidated.csv"  # In same directory as script
+
+#             # Open csv file in binary mode
+#             with open(filename, "rb") as attachment:
+#                 # Add file as application/octet-stream
+#                 # Email client can usually download this automatically as attachment
+#                 part = MIMEBase("application", "octet-stream")
+#                 part.set_payload(attachment.read())
+
+#             # Encode file in ASCII characters to send by email    
+#             encoders.encode_base64(part)
+
+#             # Add header as key/value pair to attachment part
+#             part.add_header(
+#                 "Content-Disposition",
+#                 f"attachment; filename= {filename}",
+#             )
+#             # Add attachment to message and convert message to string
+#             message.attach(part)
+#             text = message.as_string()
+
+#             # Log in to server using secure context and send email
+#             context = ssl.create_default_context()
+#             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+#                 server.login(sender_email, password)
+#                 server.sendmail(sender_email, receiver_email, text)
+#                 print("succsessfully sended the file :)")
+#         except:
            
-            print("Error in sending the file.")
-send_email()
-# tbvvrtbtmqivlliq
+#             print("Error in sending the file.")
+# send_email()
+# # tbvvrtbtmqivlliq
