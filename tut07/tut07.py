@@ -16,7 +16,6 @@ path = "input\\"
 filenames = glob.glob(path + "\*.xlsx")
 print('File names:', filenames)
 # for loop to iterate all excel files 
-qqq=0
 from datetime import datetime
 start_time = datetime.now()
 for file in filenames:
@@ -35,7 +34,7 @@ for file in filenames:
 						top=Side(style='thin'), 
 						bottom=Side(style='thin'))
 
-	# ------------------------------------------------taking input file---------------------------------------------------------------
+	# -------------------------------------------------------------taking input file---------------------------------------------------------------
 	# appling try and except for  checking the file 
 	try:
 																		#reading the input file and storing its value in the df 
@@ -46,7 +45,7 @@ for file in filenames:
 
 	print("Column headings:")
 	print(df)
-	# ----------------------------------------------calculating the value of mean of column U,V and W-----------------------------------
+	# ------------------------------------------------------calculating the value of mean of column U,V and W-----------------------------------
 	try:
 		meanU=df['U'].mean()
 		meanV=df['V'].mean()
@@ -201,15 +200,18 @@ for file in filenames:
 	k=8
 	q=0
 	dict2 ={}
+
 	for key in dict1:
 		dict2[dict1[key]]=k
 		k=k-1
+	# below code for octant count(overall)
 	for k in range(1,5):
 		print(k)
 		for i in range(23,30,2):
 			if(sheet.cell(row=1, column=i).value==-1*k):
 				sheet.cell(row=3, column=i).value =dict2[-1*k]
 				if(dict2[-1*k]==1):
+					# below code for coloring of element with specific  row and column
 					sheet.cell(row=3,column=i).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid") 
 				sheet.cell(row=3, column=i).border = thin_border
 		for i in range(22,30,2):
@@ -232,21 +234,15 @@ for file in filenames:
 	except:
 		print("errpr in leng")
 	
-	# putting the value of mod in k
+	# putting the value of mod in k ki s equal to 5000
 	k=mod
-
 	z=int(leng/k)+1
-
 	# no rows in output
 	R = int(z)
-
 	# column where my loop ends
 	C = int(22)
-	
-
 	# creating the list for octant value
 	numb=[1,-1,2,-2,3,-3,4,-4]
-
 	# making a desire dectionary calulation of the output below box
 	dict5={"Internal outward interaction":0,"External outward interaction":0,"External Ejection":0,"Internal Ejection":0,"External inward interaction":0,"Internal inward interaction":0,"Internal sweep":0,"External sweep":0}
 
@@ -309,8 +305,6 @@ for file in filenames:
 						
 						sheet.cell(row=i+5, column=j).border = thin_border
 			# below for rank 1 octant value
-			print("line 352")
-			
 			if(dict2[qq]==1):
 				q=qq
 				print(q)
@@ -364,8 +358,8 @@ for file in filenames:
 	for i in df["octant"]:
 		sheet.cell(row=w, column=11).value =i
 		w+=1
-	# ---------------------------------------------------------sdfdfddggd-------------------------------------------------------
-	k=5000
+	# ---------------------------------------------------------transition count part starts here-------------------------------------------------------
+	k=mod
 	leng=df['octant'].count()
 	try:
 		if k<leng:
@@ -378,14 +372,11 @@ for file in filenames:
 
 																	# printing the mod value
 	print("mod"+str(k))
-
-
 	print(leng) 
 	z=int(leng/k)+1
 
 	# no rows in output
 	R = int(z)
-
 	# no column is constant equal to 9
 	C = int(9)
 	
@@ -665,7 +656,8 @@ for file in filenames:
 															
 			rowi+=2
 	rowi=3
-# -----------------------------------------------------------------tut longest-------------------------------------
+	# -----------------------------------------------------------longest subsequence part--------------------------------------------------------------
+# -----------------------------------------------------------------longest subsequence heading -------------------------------------------------------------------
 	coli+=10
 	sheet.cell(row=1, column=coli).value ="Longest Subsquence Length"
 	sheet.cell(row=1, column=coli).border = thin_border
@@ -687,7 +679,7 @@ for file in filenames:
 
 	sheet.cell(row=2, column=coli+7).value ="Count"
 	sheet.cell(row=2, column=coli+7).border = thin_border
-	# ----------------------below code is for calculating the longest subsequence ans its count---------------------
+	# ---------------------------------------------------below code is for calculating the longest subsequence ans its count---------------------
 	countp=1
 	countn=-1
 
@@ -923,11 +915,12 @@ for file in filenames:
 							sheet.cell(row=star, column=j+2+coli).border = thin_border
 							star=star+1							
 		i=-1*i
+	# finding the name output file using input file name 
 	qwes=file[6:]
 	print(qwes)
 	book.save("output\\"+qwes[0:len(qwes) - 5]+"cm_vel_octant_analysis_mod_"+str(mod)+".xlsx")
 	print("sucssesfully done!")
-	qqq+=1
+	
 # finding the total time taken	 
 end_time = datetime.now()
 print('Duration of Program Execution: {}'.format(end_time - start_time))
