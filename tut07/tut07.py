@@ -1,8 +1,6 @@
-
-from datetime import datetime
-start_time = datetime.now()
-
 # inmporting nessesry libreries
+import openpyxl
+from openpyxl.styles import PatternFill
 from collections import OrderedDict
 from ast import Try
 from operator import concat
@@ -10,40 +8,27 @@ import numpy as np
 import pandas as pd
 from openpyxl.styles.borders import Border, Side
 from openpyxl import load_workbook
-
 import glob
 import os
 # getting excel files from Directory Desktop
 path = "input\\"
-
 # read all the files with extension .xlsx i.e. excel 
 filenames = glob.glob(path + "\*.xlsx")
 print('File names:', filenames)
-
 # for loop to iterate all excel files 
 qqq=0
+from datetime import datetime
+start_time = datetime.now()
 for file in filenames:
 	print(file)
-		
-	# inmporting nessesry libreries
-	from collections import OrderedDict
-	from ast import Try
-	from operator import concat
-	import numpy as np
-	import pandas as pd
-	from openpyxl.styles.borders import Border, Side
-	from openpyxl import load_workbook
-
 	#load excel file
 	try:
 		book = load_workbook(filename=file)
 	except:
 		print("unable to find the input file")
 		exit()
-	
 	#open workbook
 	sheet = book.active
-	
 	#definging the property of border
 	thin_border = Border(left=Side(style='thin'), 
 						right=Side(style='thin'), 
@@ -68,33 +53,40 @@ for file in filenames:
 		meanW=df['W'].mean()
 	except:
 		print("unable to find the mean")
-
 	sheet = book.active
-
-
 	meanU=df['U'].mean()
 	meanV=df['V'].mean()
 	meanW=df['W'].mean()
 	# adding the mean value to the new column
 	sheet.cell(row=1, column=5).value ="Uavg"
 	sheet.cell(row=2, column=5).value =round(meanU,3)
-
 	sheet.cell(row=1, column=6).value ="Vavg"
 	sheet.cell(row=2, column=6).value =round(meanV,3)
-
 	sheet.cell(row=1, column=7).value ="Wavg"
 	sheet.cell(row=2, column=7).value =round(meanW,3)
-
-
-	
 	# ----------------------------------------------  calculating error in U,V and W----------------------------------
 	df['U-Uavg']=df['U']-meanU
 	df['V-Vavg']=df['V']-meanV
 	df['W-Wavg']=df['W']-meanW
-	# ----------------------------------------------below code for desiding the octant----------------------------------------------------------
-																	# creating a list for octant values
+	# -------------------------------------------------------------------------------------------------------															# creating a list for octant values
 	octant=[]                                                        
-	#  calculating the Octant value .
+	#  calculating the value of U-Uavg, V-Uavg and W-Wavg
+	sheet.cell(row=1, column=8).value ="U-Uavg"
+	kkk=2
+	for i in df['U-Uavg']:
+		sheet.cell(row=kkk, column=8).value =i
+		kkk+=1
+	sheet.cell(row=1, column=9).value ="V-Vavg"
+	kkk=2
+	for i in df['V-Vavg']:
+			sheet.cell(row=kkk, column=9).value =i
+			kkk+=1
+	sheet.cell(row=1, column=10).value ="W-Wavg"
+	kkk=2
+	for i in df['W-Wavg']:
+			sheet.cell(row=kkk, column=10).value =i
+			kkk+=1
+	# desiding the octant value
 	try:
 		for (l, m, q) in zip(df['U-Uavg'],df['V-Vavg'],df['W-Wavg']):
 				#   appanding the octannt values to the list
@@ -120,101 +112,72 @@ for file in filenames:
 		df['octant'] = octant
 	except:
 		print("somting wrong with the columns U-Uavg,V-Vavg,W-Wavg ")
-
-	# saving the file in out put file
-	
-
 	# making the desire heading
 	sheet.cell(row=4, column=12).value ="User input"
 	sheet.cell(row=4, column=12).border = thin_border
-
-
 	# mod value
 	mod=5000
-	sheet = book.active
 	sheet.cell(row=4, column=13).value ="mod "+str(mod)
 	sheet.cell(row=4, column=13).border = thin_border
-
 	# making our desire desired heading
-
-
-
+	sheet.cell(row=1, column=13).value ="Overall Octant Count"
+	sheet.cell(row=1, column=13).border = thin_border
 	sheet.cell(row=2, column=13).value ="Octant ID"
 	sheet.cell(row=2, column=13).border = thin_border
-
 	sheet.cell(row=2, column=14).value =1
 	sheet.cell(row=2, column=14).border = thin_border
-
 	sheet.cell(row=2, column=15).value =-1
 	sheet.cell(row=2, column=15).border = thin_border
-
 	sheet.cell(row=2, column=16).value =2
 	sheet.cell(row=2, column=16).border = thin_border
-
 	sheet.cell(row=2, column=17).value =-2
 	sheet.cell(row=2, column=17).border = thin_border
-
 	sheet.cell(row=2, column=18).value =3
 	sheet.cell(row=2, column=18).border = thin_border
-
 	sheet.cell(row=2, column=19).value =-3
 	sheet.cell(row=2, column=19).border = thin_border
-
 	sheet.cell(row=2, column=20).value =4
 	sheet.cell(row=2, column=20).border = thin_border
-
 	sheet.cell(row=2, column=21).value =-4
 	sheet.cell(row=2, column=21).border = thin_border
-
 	sheet.cell(row=1, column=22).value =1
 	sheet.cell(row=1, column=22).border = thin_border
 	sheet.cell(row=2, column=22).value ="Rank 1"
 	sheet.cell(row=2, column=22).border = thin_border
-
 	sheet.cell(row=1, column=23).value =-1
 	sheet.cell(row=1, column=23).border = thin_border
-	sheet.cell(row=2, column=23).value ="Rank 2"
+	sheet.cell(row=2, column=23).value ="Rank -1"
 	sheet.cell(row=2, column=23).border = thin_border
-
 	sheet.cell(row=1, column=24).value =2
 	sheet.cell(row=1, column=24).border = thin_border
-	sheet.cell(row=2, column=24).value ="Rank 3"
+	sheet.cell(row=2, column=24).value ="Rank 2"
 	sheet.cell(row=2, column=24).border = thin_border
-
 	sheet.cell(row=1, column=25).value =-2
 	sheet.cell(row=1, column=25).border = thin_border
-	sheet.cell(row=2, column=25).value ="Rank 4"
+	sheet.cell(row=2, column=25).value ="Rank -2"
 	sheet.cell(row=2, column=25).border = thin_border
-
 	sheet.cell(row=1, column=26).value =3
 	sheet.cell(row=1, column=26).border = thin_border
-	sheet.cell(row=2, column=26).value ="Rank 5"
+	sheet.cell(row=2, column=26).value ="Rank 3"
 	sheet.cell(row=2, column=26).border = thin_border
-
 	sheet.cell(row=1, column=27).value =-3
 	sheet.cell(row=1, column=27).border = thin_border
-	sheet.cell(row=2, column=27).value ="Rank 6"
+	sheet.cell(row=2, column=27).value ="Rank -3"
 	sheet.cell(row=2, column=27).border = thin_border
-
 	sheet.cell(row=1, column=28).value =4
 	sheet.cell(row=1, column=28).border = thin_border
-	sheet.cell(row=2, column=28).value ="Rank 7"
+	sheet.cell(row=2, column=28).value ="Rank 4"
 	sheet.cell(row=2, column=28).border = thin_border
-
 	sheet.cell(row=1, column=29).value =-4
 	sheet.cell(row=1, column=29).border = thin_border
-	sheet.cell(row=2, column=29).value ="Rank 8"
+	sheet.cell(row=2, column=29).value ="Rank -4"
 	sheet.cell(row=2, column=29).border = thin_border
-
 	sheet.cell(row=2, column=30).value ="Rank1 Octant ID"
 	sheet.cell(row=2, column=30).border = thin_border
-
 	sheet.cell(row=2, column=31).value ="Rank1 Octant Name"
 	sheet.cell(row=2, column=31).border = thin_border
-
 	sheet.cell(row=3, column=13).value ="Overall Count"
 	sheet.cell(row=3, column=13).border = thin_border
-
 	# below code is for calculating the longest subsequence ans its count
 	dict = {}
 	for k in range(1,5):
@@ -232,9 +195,7 @@ for file in filenames:
 				sheet.cell(row=3, column=i).value =df['octant'].value_counts()[-1*k]
 				sheet.cell(row=3, column=i).border = thin_border
 				dict[df['octant'].value_counts()[-1*k]]=-1*k
-
 	# Creates a sorted dictionary (sorted by key)
-
 	# sorting the disctionery
 	dict1 = OrderedDict(sorted(dict.items()))
 	k=8
@@ -243,43 +204,36 @@ for file in filenames:
 	for key in dict1:
 		dict2[dict1[key]]=k
 		k=k-1
-	
-
 	for k in range(1,5):
 		print(k)
 		for i in range(23,30,2):
 			if(sheet.cell(row=1, column=i).value==-1*k):
 				sheet.cell(row=3, column=i).value =dict2[-1*k]
+				if(dict2[-1*k]==1):
+					sheet.cell(row=3,column=i).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid") 
 				sheet.cell(row=3, column=i).border = thin_border
-
 		for i in range(22,30,2):
 			if(sheet.cell(row=1, column=i).value==k):
 				sheet.cell(row=3, column=i).value =dict2[k]
+				if(dict2[k]==1):
+					sheet.cell(row=3,column=i).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
 				sheet.cell(row=3, column=i).border = thin_border
 		if(dict2[k]==1):
 			q=k 
 		elif(dict2[-1*k]==1):
-			q=k 
-
+			q=-1*k 
 	dict0={1:"Internal outward interaction",-1:"External outward interaction",2:"External Ejection",-2:"Internal Ejection",3:"External inward interaction",-3:"Internal inward interaction",4:"Internal sweep",-4:"External sweep"}
 	sheet.cell(row=3, column=30).value =q
 	sheet.cell(row=3, column=30).border = thin_border
 	sheet.cell(row=3, column=31).value =dict0[q]
-	sheet.cell(row=3, column=31).border = thin_border
-	
+	sheet.cell(row=3, column=31).border = thin_border	
 	try:
 		leng=df['octant'].count()
 	except:
 		print("errpr in leng")
-
-
-	print(leng) 
-
-
 	
 	# putting the value of mod in k
 	k=mod
-
 
 	z=int(leng/k)+1
 
@@ -292,9 +246,6 @@ for file in filenames:
 
 	# creating the list for octant value
 	numb=[1,-1,2,-2,3,-3,4,-4]
-	
-
-
 
 	# making a desire dectionary calulation of the output below box
 	dict5={"Internal outward interaction":0,"External outward interaction":0,"External Ejection":0,"Internal Ejection":0,"External inward interaction":0,"Internal inward interaction":0,"Internal sweep":0,"External sweep":0}
@@ -328,9 +279,6 @@ for file in filenames:
 				dict[count]=numb[j-14]
 				sheet.cell(row=i+5, column=j).value =count
 				sheet.cell(row=i+5, column=j).border = thin_border
-
-	
-		
 	#     sorting the dectionary by its value order
 		dict1 = OrderedDict(sorted(dict.items()))
 		# using this vable to find the rank in a order
@@ -338,27 +286,30 @@ for file in filenames:
 	#     below variable is for Octant name 
 		q=0
 	#     making new dectionary for storing the rank in desired order
-		
 		dict3={1:"Internal outward interaction",-1:"External outward interaction",2:"External Ejection",-2:"Internal Ejection",3:"External inward interaction",-3:"Internal inward interaction",4:"Internal sweep",-4:"External sweep"}
 		for key in dict1:
 		#     storing the octant value with  value equal its rank decreasing order
 			dict2[dict1[key]]=kk
 			kk=kk-1
-
 		# below code for the matrix adter input value    
 		for qq in range(1,5):
 		# positive 1,2,3,4
 			for j in range(23,30,2):
 				if(sheet.cell(row=1, column=j).value==-1*qq):
 						sheet.cell(row=i+5, column=j).value =dict2[-1*qq]
+						if(dict2[-1*qq]==1):
+							sheet.cell(row=i+5,column=j).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
 						sheet.cell(row=i+5, column=j).border = thin_border
 	#    for negative -1,-2,-3,-4
 			for j in range(22,30,2):
 				if(sheet.cell(row=1, column=j).value==qq):
 						sheet.cell(row=i+5, column=j).value =dict2[qq]
+						if(dict2[qq]==1):
+							sheet.cell(row=i+5,column=j).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
+						
 						sheet.cell(row=i+5, column=j).border = thin_border
 			# below for rank 1 octant value
-			print("liushdnf")
+			print("line 352")
 			
 			if(dict2[qq]==1):
 				q=qq
@@ -371,39 +322,29 @@ for file in filenames:
 			# wite in a cell
 			sheet.cell(row=i+5, column=30).value =q
 			sheet.cell(row=i+5, column=30).border = thin_border
-		
 		sheet.cell(row=i+5, column=31).value =dict3[q]
 		dict5[dict3[q]]+=1
 		sheet.cell(row=i+5, column=31).border = thin_border
-
-
-
 	# below variable treck record of no colmns for helping the postion for below matrix
 	RR=R+8
 	# below matrix where its colmns starts
 	colnew=14
-
 	# heading of below matrix
 	sheet.cell(row=RR, column=14).value ="Octant ID"
 	sheet.cell(row=RR, column=14).border = thin_border
-
 	sheet.cell(row=RR, column=15).value ="Octant Name "
 	sheet.cell(row=RR, column=15).border = thin_border
-
 	sheet.cell(row=RR, column=16).value ="Count of Rank 1 Mod Values"
 	sheet.cell(row=RR, column=16).border = thin_border
 	# keep tracing no rows
 	RR+=1
-
 	# below matrix vlue calculating
 	for i in range(1,5):
 	# for positve value i
 		sheet.cell(row=RR, column=14).value =i
 		sheet.cell(row=RR, column=14).border = thin_border
-
 		sheet.cell(row=RR, column=15).value =dict3[i]
 		sheet.cell(row=RR, column=15).border = thin_border
-
 		sheet.cell(row=RR, column=16).value =dict5[dict3[i]]
 		sheet.cell(row=RR, column=16).border = thin_border
 		# keep tracing no rows
@@ -411,19 +352,17 @@ for file in filenames:
 	# for negative vlue of i
 		sheet.cell(row=RR, column=14).value =-1*i
 		sheet.cell(row=RR, column=14).border = thin_border
-
 		sheet.cell(row=RR, column=15).value =dict3[-1*i]
 		sheet.cell(row=RR, column=15).border = thin_border
-
 		sheet.cell(row=RR, column=16).value =dict5[dict3[-1*i]]
 		sheet.cell(row=RR, column=16).border = thin_border
 	# keep tracing no rows
 		RR+=1
     
 	w=2
-	sheet.cell(row=1, column=8).value ="octant"
+	sheet.cell(row=1, column=11).value ="octant"
 	for i in df["octant"]:
-		sheet.cell(row=w, column=8).value =i
+		sheet.cell(row=w, column=11).value =i
 		w+=1
 	# ---------------------------------------------------------sdfdfddggd-------------------------------------------------------
 	k=5000
@@ -491,6 +430,9 @@ for file in filenames:
 
 	# below code run for j=1,2,3,4
 	# below code is for over all
+	qwe=5
+	qwec=5
+	qwer=0
 	for j in range(1,5):
 		q=[]
 		# below value are transtion count for j
@@ -498,6 +440,7 @@ for file in filenames:
 		# below value are transtion count for -j
 		aa=bb=cc=dd=ee=ff=gg=hh=0
 		# below cord for countin the all the transtions in the total length of octant
+		dd=0
 		for k in range(0,leng-1):
 			# below cord for tanstion of j to 1 herw j may be 1,2,3,4
 			if(df['octant'][k]==j and df['octant'][k+1]==1):
@@ -535,6 +478,8 @@ for file in filenames:
 				hh=hh+1   
 
 		sheet.cell(row=rowi, column=coli).value =str(j)
+		sheet.cell(row=rowi,column=coli+qwer+1).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
+		qwer+=1
 		sheet.cell(row=rowi, column=coli).border = thin_border
 		sheet.cell(row=rowi, column=coli+1).value =str(a)
 		sheet.cell(row=rowi, column=coli+1).border = thin_border
@@ -556,6 +501,8 @@ for file in filenames:
 		# adding the transtion counts in new matrix as a row for j to 1,-1,2,-2 and so on
 
 		sheet.cell(row=rowi, column=coli).value =str(-j)
+		sheet.cell(row=rowi,column=coli+qwer+1).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
+		qwer+=1
 		sheet.cell(row=rowi, column=coli).border = thin_border
 		sheet.cell(row=rowi, column=coli+1).value =str(aa)
 		sheet.cell(row=rowi, column=coli+1).border = thin_border
@@ -577,9 +524,10 @@ for file in filenames:
 		rowi+=1
 
 		# -----------------------------------------------------------------------------------------------------------------------------
+	
 	for i in range(R):          # A for loop for row entries
 			# creating a list
-			a =[]
+			
 				# condition for last row of output to cheak the  length of input so it stop when input length reached
 			if(i==R-1):
 					
@@ -595,11 +543,7 @@ for file in filenames:
 						
 			else:    
 					# appending the range in which we calculating the transtions count  
-					u=str(i*zo)+"-"+str(zo*(i+1)-1) 
-					popoo=[]
-					popoo.append("Transition Count")
-
-
+					
 					sheet.cell(row=rowi, column=coli).value ="Transition Count"
 					rowi+=1
 					sheet.cell(row=rowi, column=coli).value =str(i*zo)
@@ -629,7 +573,7 @@ for file in filenames:
 			sheet.cell(row=rowi, column=coli+8).value ='-4'
 			sheet.cell(row=rowi, column=coli+8).border = thin_border
 			rowi+=1
-			
+			qwer=0
 			for j in range(1,5):
 							
 							a=b=c=d=e=f=g=h=0
@@ -674,6 +618,8 @@ for file in filenames:
 									hh=hh+1   
 							
 							sheet.cell(row=rowi, column=coli).value =str(j)
+							sheet.cell(row=rowi,column=coli+qwer+1).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
+							qwer+=1
 							sheet.cell(row=rowi, column=coli).border = thin_border
 							sheet.cell(row=rowi, column=coli+1).value =str(a)
 							sheet.cell(row=rowi, column=coli+1).border = thin_border
@@ -696,6 +642,8 @@ for file in filenames:
 
 							sheet.cell(row=rowi, column=coli).value =str(-j)
 							sheet.cell(row=rowi, column=coli).border = thin_border
+							sheet.cell(row=rowi,column=coli+qwer+1).fill = PatternFill(start_color='FFD970', end_color='FFD970', fill_type="solid")
+							qwer+=1
 							sheet.cell(row=rowi, column=coli+1).value =str(aa)
 							sheet.cell(row=rowi, column=coli+1).border = thin_border
 							sheet.cell(row=rowi, column=coli+2).value =str(bb)
@@ -717,8 +665,10 @@ for file in filenames:
 															
 			rowi+=2
 	rowi=3
-
+# -----------------------------------------------------------------tut longest-------------------------------------
 	coli+=10
+	sheet.cell(row=1, column=coli).value ="Longest Subsquence Length"
+	sheet.cell(row=1, column=coli).border = thin_border
 	# making our desire matrix having desired heading
 	sheet.cell(row=2, column=coli).value ="Count"
 	sheet.cell(row=2, column=coli).border = thin_border
@@ -743,7 +693,7 @@ for file in filenames:
 
 	for i in range(3,11):
 		
-		for j in range(0,3):
+		for j in range(0,1):
 			# for the +1,+2,+3,+4
 			if j==0 and i%2==0:
 				sheet.cell(row=i, column=j+coli).value =countp
@@ -777,15 +727,11 @@ for file in filenames:
 				sheet.cell(row=i, column=j+2+coli).value =count
 				# adding the border to it
 				sheet.cell(row=i, column=j+2+coli).border = thin_border
-
 				countp=countp+1
-		
 			# for the -1,-2,-3,-4  
 			if j==0 and i%2!=0:
 				sheet.cell(row=i, column=j+coli).value =countn
 				sheet.cell(row=i, column=j+coli).border = thin_border
-				
-				
 				maxo=0
 				count=0
 				t=0
@@ -821,9 +767,12 @@ for file in filenames:
 
 	#  making a new variable to keep track of column so that i can easly add new columns
 	star=3
+	sheet.cell(row=1, column=coli+5).value ="Longest Subsquence Length with Range"
+	sheet.cell(row=1, column=coli+5).border = thin_border
+	print("line 820")
 	for i in range(1,5):
 		
-		for j in range(4,8):
+		for j in range(5,6):
 			# for the +1,+2,+3,+4
 			if j==5 :
 
@@ -899,17 +848,13 @@ for file in filenames:
 								print("error in  line 899")
 							# adding the border to it
 							sheet.cell(row=star, column=j+2+coli).border = thin_border
-
 							# increasing the value of varble to keep track of no columns
-							star=star+1
-							
-						
+							star=star+1			
 			# same code as above only for negatve of i or(if above is for 1 than this below code is for -1 and so on).
 			if j==5 :
 				i=-1*i
 				sheet.cell(row=star, column=j+coli).value =1*i
-				sheet.cell(row=star, column=j+coli).border = thin_border
-				
+				sheet.cell(row=star, column=j+coli).border = thin_border				
 				maxo=0
 				count=0
 				t=0
@@ -920,9 +865,7 @@ for file in filenames:
 							t=0
 
 						if(maxo<t):
-							maxo=t
-						
-						
+							maxo=t	
 				for k in df['octant']:
 						if k==i:
 							t=t+1
@@ -941,21 +884,17 @@ for file in filenames:
 				sheet.cell(row=star, column=j+2+coli).border = thin_border
 					# increasing the value of varble to keep track of no columns
 				star=star+1
-
 				# adding the new row 
 				# for time to from.
 				sheet.cell(row=star, column=j+coli).value ="Time"
 				# adding the border to it
 				sheet.cell(row=star, column=j+coli).border = thin_border
 				sheet.cell(row=star, column=j+1+coli).value ="From"
-				# adding the border to it
 				sheet.cell(row=star, column=j+1+coli).border = thin_border
 				sheet.cell(row=star, column=j+2+coli).value ="To"
-				# adding the border to it
 				sheet.cell(row=star, column=j+2+coli).border = thin_border
 				# increasing the value of varble to keep track of no columns
 				star=star+1
-
 				# below code for finding where the max subsequnce length starts and ends.
 				# below variable to keep track no itrations whilch halps to find the dirst occurence of an element ifrom the max subsequence length
 				qq=0
@@ -982,14 +921,13 @@ for file in filenames:
 								print("error in  line 899")
 							# adding the border to it
 							sheet.cell(row=star, column=j+2+coli).border = thin_border
-							star=star+1
-							
-							
-		i=-1*i 
-
-              
-	print("sucssesfully done!") 
-	book.save(str(qqq)+".xlsx")
+							star=star+1							
+		i=-1*i
+	qwes=file[6:]
+	print(qwes)
+	book.save("output\\"+qwes[0:len(qwes) - 5]+"cm_vel_octant_analysis_mod_"+str(mod)+".xlsx")
+	print("sucssesfully done!")
 	qqq+=1
+# finding the total time taken	 
 end_time = datetime.now()
 print('Duration of Program Execution: {}'.format(end_time - start_time))
