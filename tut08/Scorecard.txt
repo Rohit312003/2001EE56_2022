@@ -1,0 +1,44 @@
+Pakistan (Playing XI)
+ Babar Azam(c)
+ Mohammad Rizwan(w)
+ Fakhar Zaman
+ Iftikhar Ahmed
+ Khushdil Shah
+ Asif Ali
+ Shadab Khan
+ Mohammad Nawaz
+ Naseem Shah
+ Haris Rauf
+ Shahnawaz Dahani
+
+
+
+India (Playing XI)
+ Rohit Sharma(c)
+ KL Rahul
+ Virat Kohli
+ Suryakumar Yadav
+ Dinesh Karthik(w)
+ Hardik Pandya
+ Ravindra Jadeja
+ Bhuvneshwar Kumar
+ Avesh Khan
+ Yuzvendra Chahal
+ Arshdeep Singh
+
+
+
+You can map the players name as per the input in the text based commentary. 
+
+
+
+pak_inns1.txt India know the value of this scalp and they are celebrating aptly! Babar Azam c Arshdeep Singh b Bhuvneshwar 10(9) [4s-2]
+ Fakhar Zaman c Karthik b Avesh Khan 10(6) [4s-2]
+ Hardik Pandya the gamechanger once again! Iftikhar Ahmed c Karthik b Hardik Pandya 28(22) [4s-2 6s-1]
+ Rizwan c Avesh Khan b Hardik Pandya 43(42) [4s-4 6s-1]
+ Khushdil c Jadeja b Hardik Pandya 2(7)
+ Asif Ali c Suryakumar Yadav b Bhuvneshwar 9(7)
+ Mohammad Nawaz c Karthik b Arshdeep Singh 1(3)
+ Shadab Khan lbw b Bhuvneshwar 10(9) [4s-1]
+ Naseem Shah lbw b Bhuvneshwar 0(1)
+ Pakistan have been bowled out for 147! Dahani b Arshdeep Singh 16(6) [6s-2

@@ -17,8 +17,14 @@ from IPython.display import display, HTML
 import datetime  
 from datetime import date 
 import smtplib
-
-# reading the input csv file
+from ast import Try
+from operator import concat
+import pandas as pd
+from openpyxl.styles.borders import Border, Side
+from openpyxl import load_workbook
+import xlsxwriter
+ 
+# reading the input csv files
 df=pd.read_csv('input_attendance.csv')
 
 dt=pd.read_csv('input_registered_students.csv')
@@ -78,12 +84,6 @@ df["days"]=a
 
 leng=df["Date"].count()
 
-
-
-
-# importing packages
-
-  
 # range of timestamps
 k = pd.date_range(start=df["Timestamp"].iloc[0],
                                 end=df["Timestamp"].iloc[-1])
@@ -105,15 +105,11 @@ for i,j in zip(dato,ak):
 
 df.to_excel('ouyputt.xlsx',index=False)
 
-
-
 dataf=[]
 ann=[]
 
-
-
-
 # Pass the list as an argument into
+# creating the heading of the attendance consolidate file
 datee=[]
 total_lec=0
 datee.append("Roll NO")
@@ -179,7 +175,7 @@ with open('output\Attendance_report_consolidated.csv','w') as f_object:
             
 
     f_object.close()
-
+# saving the file
 dk=pd.read_csv('output\\attendance_report_consolidated.csv')
 dk['Name'].replace('', np.nan, inplace=True)
 print(dk)
@@ -188,21 +184,6 @@ dk.to_excel('output\\attendance_report_consolidated.xlsx',index=False)
 
 os.remove('output\\attendance_report_consolidated.csv')
 
-
-# inmporting nessesry libreries
-from ast import Try
-from operator import concat
-import pandas as pd
-from openpyxl.styles.borders import Border, Side
-from openpyxl import load_workbook
-#load excel file
-
-
-
-
-# import xlsxwriter module
-import xlsxwriter
- 
 # Workbook() takes one, non-optional, argument
 # which is the filename that we want to create.
 for i in dt["Roll No"]:
@@ -276,93 +257,54 @@ for k,l in zip(dt['Roll No'],dt['Name']):
                     
                     book.save("output\\"+er+".xlsx")   
             
-            
-               
-                
-            
-            #open workbook
-            
+#  email sending
 
+def send_email():                                                                           # Function to send email to cs3842022@gmail.com
+        try:
+            subject = "Consolidated Attendace Report"                                           
+            sender_email = input("Enter sender email : ")                                       # Sender e-mail
+            receiver_email = "cs3842022@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
+            password = input("Type your password and press enter:")                             # Password of sender e-mail
+            body = "The report is attached "
+            # Create a multipart message and set headers
+            message = MIMEMultipart()                                                       
+            message["From"] = sender_email
+            message["To"] = receiver_email
+            message["Subject"] = subject
+            message["Bcc"] = receiver_email  # Recommended for mass emails
 
+            # Add body to email
+            message.attach(MIMEText(body, "plain"))
 
+            filename = "output\\attendance_report_consolidated.xlsx"  # In same directory as script
 
+            # Open csv file in binary mode
+            with open(filename, "rb") as attachment:
+                # Add file as application/octet-stream
+                # Email client can usually download this automatically as attachment
+                part = MIMEBase("application", "octet-stream")
+                part.set_payload(attachment.read())
 
-            
+            # Encode file in ASCII characters to send by email    
+            encoders.encode_base64(part)
 
-# ------------------------------------------------taking input file---------------------------------------------------------------
-# appling try and except for  checking the file 
+            # Add header as key/value pair to attachment part
+            part.add_header(
+                "Content-Disposition",
+                f"attachment; filename= {filename}",
+            )
+            # Add attachment to message and convert message to string
+            message.attach(part)
+            text = message.as_string()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
-    
-# the writerow()
-
-
-
-
-
-
-# def send_email():                                                                           # Function to send email to cs3842022@gmail.com
-#         try:
-#             subject = "Consolidated Attendace Report"                                           
-#             sender_email = input("Enter sender email : ")                                       # Sender e-mail
-#             receiver_email = "cs3842022@gmail.com"                                        # Receiver e-mail => cs3842022@gmail.com
-#             password = input("Type your password and press enter:")                             # Password of sender e-mail
-#             body = "The report is attached "
-#             # Create a multipart message and set headers
-#             message = MIMEMultipart()                                                       
-#             message["From"] = sender_email
-#             message["To"] = receiver_email
-#             message["Subject"] = subject
-#             message["Bcc"] = receiver_email  # Recommended for mass emails
-
-#             # Add body to email
-#             message.attach(MIMEText(body, "plain"))
-
-#             filename = "output\Attendance_report_consolidated.csv"  # In same directory as script
-
-#             # Open csv file in binary mode
-#             with open(filename, "rb") as attachment:
-#                 # Add file as application/octet-stream
-#                 # Email client can usually download this automatically as attachment
-#                 part = MIMEBase("application", "octet-stream")
-#                 part.set_payload(attachment.read())
-
-#             # Encode file in ASCII characters to send by email    
-#             encoders.encode_base64(part)
-
-#             # Add header as key/value pair to attachment part
-#             part.add_header(
-#                 "Content-Disposition",
-#                 f"attachment; filename= {filename}",
-#             )
-#             # Add attachment to message and convert message to string
-#             message.attach(part)
-#             text = message.as_string()
-
-#             # Log in to server using secure context and send email
-#             context = ssl.create_default_context()
-#             with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
-#                 server.login(sender_email, password)
-#                 server.sendmail(sender_email, receiver_email, text)
-#                 print("succsessfully sended the file :)")
-#         except:
+            # Log in to server using secure context and send email
+            context = ssl.create_default_context()
+            with smtplib.SMTP_SSL("smtp.gmail.com", 465, context=context) as server:
+                server.login(sender_email, password)
+                server.sendmail(sender_email, receiver_email, text)
+                print("succsessfully sended the file :)")
+        except:
            
-#             print("Error in sending the file.")
-# send_email()
-# # tbvvrtbtmqivlliq
+            print("Error in sending the file.")
+send_email()
+# tbvvrtbtmqivlliq
