@@ -1,1 +1,1 @@
-print(kiu," ",yu[1]," ",qwer[1]," ")
+bolo[kiu]+=1

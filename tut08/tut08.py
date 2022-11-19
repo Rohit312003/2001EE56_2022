@@ -50,18 +50,10 @@ def scorecard():
  
     # Pass this file object to csv.writer()
     # and get a writer object
-		
+		nameofplayer=[]
 		with open('teams.txt','r') as file:
 			# bowler={"bol":{"player":" ","O":0,"M":0,"R":0,"W":0,"N":0,"B":0,"W":0,"D":0,"E":0,"C":0,"O":0}}
-			bolo={}
-			bolR={}
-			bolW={}
-			bolD={}
-			run={}
-			run4={}
-			runR={}
-			run6={}
-			runD={}
+			
 
 
 			     
@@ -69,9 +61,9 @@ def scorecard():
 		# reading each line 
 			hdjd = file.readlines()
 			lo=0
-			playername={}
+			
 			for line in hdjd:
-		        
+				
 				# reading each word 
 				print(line)  
 				ll=0     
@@ -84,12 +76,14 @@ def scorecard():
 							lll=word.split(":")
 							print(lll[0])
 							a.append(lll[0])
-							file7.write(lll[0])  
+							file7.write(lll[0])
+							nameofplayer.append(lll[0])  
 							file7.write('\n')  
 							
 							a=[]
 							print(lll[1])
 							a.append(lll[1])
+							nameofplayer.append(lll[1] )
 							file7.write(lll[1])  
 							file7.write('\n') 
 							
@@ -106,6 +100,7 @@ def scorecard():
 						a=[]
 						
 						a.append(word)
+						nameofplayer.append(word) 
 						file7.write(word)  
 						file7.write('\n') 
 						print(word)
@@ -113,247 +108,288 @@ def scorecard():
 		file7.write('\n') 
 		file7.write('\n') 
 		file7.write('\n') 
-		total=0
-		wic=0
-		file7.write('pak_inns1.txt') 
-		with open('pak_inns1.txt','r') as file2:
-			a=[]
-			lines= file2.readlines()
-			for i in lines:
-				if(i!='\n'):
-					qwer=i.split(",",4)
-					yu=qwer[0].split("to",1)
-					kl=yu[0].split(" ",1)
-					kiu=kl[1]
-					bolR[kiu]=0
-					bolo[kiu]=0
-					bolW[kiu]=0
-					bolD[kiu]=0
-					run[yu[1]]=0
-					run4[yu[1]]=0
-					runR[yu[1]]=0
-					run6[yu[1]]=0
-					runD[yu[1]]=0
-                    
-			for i in lines:
-				if(i!='\n'):
-					qwer=i.split(",",4)
-					yu=qwer[0].split("to",1)
-					kl=yu[0].split(" ",1)
-					kiu=kl[1]
-                    
-                    
-					
-					
-					
-					
-					if(qwer[1]==' 1 run'):
-						total+=1
-						bolR[kiu]+=1
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]+=1
-						run4[yu[1]]
-						runR[yu[1]]+=1
-						run6[yu[1]]
-						runD[yu[1]]
-					elif(qwer[1]==" 2 runs"):
-						total+=2
-						bolR[kiu]+=2
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]+=2
-						run4[yu[1]]
-						runR[yu[1]]+=1
-						run6[yu[1]]
-						runD[yu[1]]
-						
-					elif(qwer[1]==" 3 runs"):
-						total+=3
-						bolR[kiu]+=3
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]+=3
-						run4[yu[1]]
-						runR[yu[1]]+=1
-						run6[yu[1]]
+		nameofteam=['pak_inns1.txt','india_inns2.txt']
+		nameofteam2=['Pakistan Innings ','India Innings ']
+		play=0
+		print("-------------------------------------------------------------------------------------")
+		
+		print("-------------------------------------------------------------------------------------")
+		for o in nameofteam:
+			bolo={}
+			bolR={}
+			bolW={}
+			bolD={}
+			run={}
+			run4={}
+			runR={}
+			run6={}
+			runD={}
+			total=0
+			wic=0
+			file7.write("\n")
+			file7.write(nameofteam2[play])
+			file7.write("\n")
+			play+=1
+			with open(o,'r') as file2:
+				a=[]
+				lines= file2.readlines()
+				for i in lines:
+					if(i!='\n'):
+						qwer=i.split(",",4)
+						yu=qwer[0].split("to",1)
+						kl=yu[0].split(" ",1)
+						kiu=kl[1]
+						bolR[kiu]=0
+						bolo[kiu]=0
+						bolW[kiu]=0
+						bolD[kiu]=0
+						run[yu[1]]=0
+						run4[yu[1]]=0
+						runR[yu[1]]=0
+						run6[yu[1]]=0
 						runD[yu[1]]=0
 						
-					elif(qwer[1]==" wide"):
-						total+=1
-						bolR[kiu]+=1
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]
-						run4[yu[1]]
-						runR[yu[1]]
-						run6[yu[1]]
-						runD[yu[1]]=0
+				for i in lines:
+					if(i!='\n'):
+						qwer=i.split(",",4)
+						yu=qwer[0].split("to",1)
+						kl=yu[0].split(" ",1)
+						kiu=kl[1]
 						
-					elif(qwer[1]==" 2 wides"):
-						total+=2
-						bolR[kiu]+=2
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]+=2
-						run4[yu[1]]
-						runR[yu[1]]
-						run6[yu[1]]
-						runD[yu[1]]=0
 						
-					elif(qwer[1]==" 3 wides"):
-						total+=3
-						bolR[kiu]+=3
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						run[yu[1]]+=2
-						run4[yu[1]]
-						runR[yu[1]]
-						run6[yu[1]]
-						runD[yu[1]]
 						
-					elif(qwer[1]==" FOUR"):
-						total+=4
-						bolR[kiu]+=4
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
 						
-						run[yu[1]]+=4
-						run4[yu[1]]+=1
-						runR[yu[1]]+=1
-						run6[yu[1]]
-						runD[yu[1]]
 						
-					elif(qwer[1]==" SIX"):
-						total+=6
-						bolR[kiu]+=6
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
 						
-						run[yu[1]]+=6
-						run4[yu[1]]
-						runR[yu[1]]+=1
-						run6[yu[1]]+=1
-						runD[yu[1]]=0
-						
-					elif(qwer[1]==" leg byes"):
-						runR[yu[1]]+=1
-						if(qwer[2]==' 1 run'):
+						if(qwer[1]==' 1 run'):
 							total+=1
 							bolR[kiu]+=1
-							bolo[kiu]
+							bolo[kiu]+=1
 							bolW[kiu]
 							bolD[kiu]
-							
-						elif(qwer[2]==" 2 runs"):
+							run[yu[1]]+=1
+							run4[yu[1]]
+							runR[yu[1]]+=1
+							run6[yu[1]]
+							runD[yu[1]]
+						elif(qwer[1]==" 2 runs"):
 							total+=2
 							bolR[kiu]+=2
-							bolo[kiu]
+							bolo[kiu]+=1
 							bolW[kiu]
 							bolD[kiu]
+							run[yu[1]]+=2
+							run4[yu[1]]
+							runR[yu[1]]+=1
+							run6[yu[1]]
+							runD[yu[1]]
 							
-							
-						elif(qwer[2]==" 3 runs"):
+						elif(qwer[1]==" 3 runs"):
 							total+=3
-							
 							bolR[kiu]+=3
-							bolo[kiu]
+							bolo[kiu]+=1
 							bolW[kiu]
 							bolD[kiu]
+							run[yu[1]]+=3
+							run4[yu[1]]
+							runR[yu[1]]+=1
+							run6[yu[1]]
+							runD[yu[1]]=0
 							
-						elif(qwer[2]==" wide"):
+						elif(qwer[1]==" wide"):
 							total+=1
-							
 							bolR[kiu]+=1
-							bolo[kiu]
+							
 							bolW[kiu]
 							bolD[kiu]
+							run[yu[1]]
+							run4[yu[1]]
+							runR[yu[1]]
+							run6[yu[1]]
+							runD[yu[1]]=0
 							
-						elif(qwer[2]==" 2 wides"):
+						elif(qwer[1]==" 2 wides"):
 							total+=2
 							bolR[kiu]+=2
-							bolo[kiu]
-							bolW[kiu]
-							bolD[kiu]
-
-						elif(qwer[2]==" 3 wides"):
-							total+=3
 							
-							bolR[kiu]+=3
-							bolo[kiu]
 							bolW[kiu]
 							bolD[kiu]
-
-						elif(qwer[2]==" FOUR"):
+							run[yu[1]]+=2
+							run4[yu[1]]
+							runR[yu[1]]
+							run6[yu[1]]
+							runD[yu[1]]=0
+							
+						elif(qwer[1]==" 3 wides"):
+							total+=3
+							bolR[kiu]+=3
+							
+							bolW[kiu]
+							bolD[kiu]
+							run[yu[1]]+=2
+							run4[yu[1]]
+							runR[yu[1]]
+							run6[yu[1]]
+							runD[yu[1]]
+							
+						elif(qwer[1]==" FOUR"):
 							total+=4
-							
 							bolR[kiu]+=4
-							bolo[kiu]
+							bolo[kiu]+=1
 							bolW[kiu]
 							bolD[kiu]
-
-						elif(qwer[2]==" SIX"):
-							total+=6
 							
+							run[yu[1]]+=4
+							run4[yu[1]]+=1
+							runR[yu[1]]+=1
+							run6[yu[1]]
+							runD[yu[1]]
+							
+						elif(qwer[1]==" SIX"):
+							total+=6
 							bolR[kiu]+=6
-							bolo[kiu]
+							bolo[kiu]+=1
 							bolW[kiu]
 							bolD[kiu]
-	
-					elif(qwer[1]==" no ball"):
-						total+=1
-						
-						bolR[kiu]
-						bolo[kiu]
-						bolW[kiu]
-						bolD[kiu]
-						
-					elif(qwer[1]==" no run"):
-						total+=0
-						runR[yu[1]]+=1
-						
-						bolD[kiu]=+1
-					else:
-						runR[yu[1]]+=1
-						bolW[kiu]+=1
-						
-			for key in run:
-				print(key,"-> run ",run[key]," in ",runR[key]," balls")
-				print(key,"-> 6s ",run6[key])
-				print(key,"-> 4s ",run4[key])
-			
-			
-			print("\n")
-			for key in bolR:
-				print(key,"-> run ",bolR[key])
-				print(key,"-> wicket ",bolW[key])
-			
-			for i in lines:
-				if(i!='\n'):
-					a.append(i[:len(i)])
+							
+							run[yu[1]]+=6
+							run4[yu[1]]
+							runR[yu[1]]+=1
+							run6[yu[1]]+=1
+							runD[yu[1]]=0
+							
+						elif(qwer[1]==" leg byes"):
+							runR[yu[1]]+=1
+							if(qwer[2]==' 1 run'):
+								total+=1
+								bolR[kiu]+=1
+								bolo[kiu]+=1
+								bolW[kiu]
+								bolD[kiu]
+								
+							elif(qwer[2]==" 2 runs"):
+								total+=2
+								bolR[kiu]+=2
+								bolo[kiu]+=1
+								bolW[kiu]
+								bolD[kiu]
+								
+								
+							elif(qwer[2]==" 3 runs"):
+								total+=3
+								
+								bolR[kiu]+=3
+								bolo[kiu]+=1
+								bolW[kiu]
+								bolD[kiu]
+								
+							elif(qwer[2]==" wide"):
+								total+=1
+								
+								bolR[kiu]+=1
+								
+								bolW[kiu]
+								bolD[kiu]
+								
+							elif(qwer[2]==" 2 wides"):
+								total+=2
+								bolR[kiu]+=2
+								
+								bolW[kiu]
+								bolD[kiu]
+
+							elif(qwer[2]==" 3 wides"):
+								total+=3
+								
+								bolR[kiu]+=3
+								
+								bolW[kiu]
+								bolD[kiu]
+
+							elif(qwer[2]==" FOUR"):
+								total+=4
+								
+								bolR[kiu]+=4
+								bolo[kiu]+=1
+								bolW[kiu]
+								bolD[kiu]
+
+							elif(qwer[2]==" SIX"):
+								total+=6
+								
+								bolR[kiu]+=6
+								bolo[kiu]+=1
+								bolW[kiu]
+								bolD[kiu]
+		
+						elif(qwer[1]==" no ball"):
+							total+=1
+							
+							bolR[kiu]
+							
+							bolW[kiu]
+							bolD[kiu]
+							
+						elif(qwer[1]==" no run"):
+							total+=0
+							runR[yu[1]]+=1
+							bolo[kiu]+=1
+							bolD[kiu]=+1
+						else:
+							runR[yu[1]]+=1
+							bolW[kiu]+=1
+							bolo[kiu]+=1
+                
+				
+				dictactualname={}
+				for key in run:
+					for w in nameofplayer:
+						if w.find(key)>=0:
+							dictactualname[key]=w
+				file7.write("\n")
+				file7.write("Batting")	
+				file7.write("\n")
+				file7.write(f"{'NAME':<50}{'RUNS':<10}{'BALLS':<10}{'6s':<10}{'4s':<10}{'SR':<10}")
+				file7.write("\n")	
+				for key in run:
 					
-
-					pp=re.search(r"\d*(\W*(\d*)\)\W)",i[:len(i)])
-					if pp!=None:
-						wic+=1
-						ind=len(i[:len(i)])-i[:len(i)][::-1].find(".")
-						
-						print(i[:len(i)-1][ind:])
-						file7.write(i[:len(i)-1][ind:])  
-						file7.write('\n') 
-						
-			
-			# print(a)
-			print(total,"-",wic)
-
+					file7.write(f"{dictactualname[key]:<50}{run[key]:<10}{runR[key]:<10}{run6[key]:<10}{run4[key]:<10}{round((run[key]*100)/runR[key],2):<10}") 
+					file7.write('\n')
+					
+				
+				
+				file7.write("\n")
+				file7.write("Bowling")
+				file7.write("\n")
+				file7.write(f"{'NAME':<50}{'WICKET':<10}{'':<10}{'RUNS':<10}{'ECO':<10}")
+				
+				for key in bolR:
+					file7.write("\n")
+					file7.write(f"{key:<50}{bolW[key]:<10}{'':<10}{bolR[key]:<10}{round((bolR[key]*6)/bolo[key],2):<10}")
+					file7.write("\n") 
+				file7.write("\n")
+				file7.write(" WICKETS ")
+				file7.write("\n")
+				for i in lines:
+					if(i!='\n'):
+						a.append(i[:len(i)])
+						pp=re.search(r"\d*(\W*(\d*)\)\W)",i[:len(i)])
+						if pp!=None:
+							wic+=1
+							ind=len(i[:len(i)])-i[:len(i)][::-1].find(".")
+							file7.write("\n")
+							file7.write(i[:len(i)-1][ind:])
+							file7.write("\n")
+							
+							
+							
+							
+				
+			# file7.write(a)
+			file7.write("\n")
+			wer=str(total)+"-"+str(wic)
+			file7.write(f"{'SCORE:':<80}{wer:>10}")
+			file7.write("\n")
 				
 					
 						

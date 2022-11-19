@@ -32,13 +32,96 @@ You can map the players name as per the input in the text based commentary.
 
 
 
-pak_inns1.txt India know the value of this scalp and they are celebrating aptly! Babar Azam c Arshdeep Singh b Bhuvneshwar 10(9) [4s-2]
+
+Pakistan Innings 
+
+Batting
+NAME                                              RUNS      BALLS     6s        4s        SR        
+ Mohammad Rizwan(w)                               43        42        1         4         102.38    
+ Babar Azam(c)                                    10        9         0         2         111.11    
+ Fakhar Zaman                                     10        6         0         2         166.67    
+ Iftikhar Ahmed                                   28        22        1         2         127.27    
+ Khushdil Shah                                    2         7         0         0         28.57     
+ Shadab Khan                                      10        9         0         1         111.11    
+ Asif Ali                                         9         7         0         0         128.57    
+ Mohammad Nawaz                                   1         3         0         0         33.33     
+ Haris Rauf                                       13        7         0         2         185.71    
+ Naseem Shah                                      0         1         0         0         0.0       
+ Shahnawaz Dahani
+                                16        6         2         0         266.67    
+
+Bowling
+NAME                                              WICKET              RUNS      ECO       
+Bhuvneshwar                                       4                   26        6.5       
+
+Arshdeep Singh                                    2                   33        8.61      
+
+Hardik Pandya                                     3                   25        6.25      
+
+Avesh Khan                                        1                   19        9.5       
+
+Chahal                                            0                   32        8.0       
+
+Jadeja                                            1                   11        5.5       
+
+ WICKETS 
+
+ India know the value of this scalp and they are celebrating aptly! Babar Azam c Arshdeep Singh b Bhuvneshwar 10(9) [4s-2]
+
  Fakhar Zaman c Karthik b Avesh Khan 10(6) [4s-2]
+
  Hardik Pandya the gamechanger once again! Iftikhar Ahmed c Karthik b Hardik Pandya 28(22) [4s-2 6s-1]
+
  Rizwan c Avesh Khan b Hardik Pandya 43(42) [4s-4 6s-1]
+
  Khushdil c Jadeja b Hardik Pandya 2(7)
+
  Asif Ali c Suryakumar Yadav b Bhuvneshwar 9(7)
+
  Mohammad Nawaz c Karthik b Arshdeep Singh 1(3)
+
  Shadab Khan lbw b Bhuvneshwar 10(9) [4s-1]
+
  Naseem Shah lbw b Bhuvneshwar 0(1)
+
  Pakistan have been bowled out for 147! Dahani b Arshdeep Singh 16(6) [6s-2
+
+SCORE:                                                                              147-10
+
+India Innings 
+
+Batting
+NAME                                              RUNS      BALLS     6s        4s        SR        
+ Rohit Sharma(c)                                  12        18        1         0         66.67     
+ KL Rahul                                         0         1         0         0         0.0       
+ Virat Kohli                                      35        34        1         3         102.94    
+ Ravindra Jadeja                                  39        29        2         2         134.48    
+ Suryakumar Yadav                                 18        18        0         1         100.0     
+ Hardik Pandya                                    33        17        1         4         194.12    
+ Dinesh Karthik(w)                                1         1         0         0         100.0     
+
+Bowling
+NAME                                              WICKET              RUNS      ECO       
+Naseem Shah                                       2                   27        6.75      
+
+Dahani                                            0                   29        7.25      
+
+Haris Rauf                                        0                   40        10.0      
+
+Shadab Khan                                       0                   19        4.75      
+
+Mohammad Nawaz                                    3                   33        9.0       
+
+ WICKETS 
+
+ Rahul b Naseem Shah 0(1)
+
+ Rohit c Iftikhar Ahmed b Mohammad Nawaz 12(18) [6s-1]
+
+ Kohli c Iftikhar Ahmed b Mohammad Nawaz 35(34) [4s-3 6s-1]
+
+ Suryakumar Yadav b Naseem Shah 18(18) [4s-1]
+
+ Jadeja b Mohammad Nawaz 35(29) [4s-2 6s-2]
+
+SCORE:                                                                               148-5
