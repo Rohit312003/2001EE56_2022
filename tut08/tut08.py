@@ -52,7 +52,7 @@ def scorecard():
     # and get a writer object
 		nameofplayer=[]
 		with open('teams.txt','r') as file:
-			# bowler={"bol":{"player":" ","O":0,"M":0,"R":0,"W":0,"N":0,"B":0,"W":0,"D":0,"E":0,"C":0,"O":0}}
+			
 			
 
 
@@ -66,13 +66,15 @@ def scorecard():
 				
 				# reading each word 
 				print(line)  
-				ll=0     
+				ll=0 
+				    # below code for finding the playing eleven name
 				for word in line.split(','):
 				
 					# displaying the words
 					if ll==0:
 						try:
 							a=[]
+							# breaking the words into get the name of player store in atxt file
 							lll=word.split(":")
 							print(lll[0])
 							a.append(lll[0])
@@ -108,6 +110,7 @@ def scorecard():
 		file7.write('\n') 
 		file7.write('\n') 
 		file7.write('\n') 
+		# below code for making the score bord
 		nameofteam=['pak_inns1.txt','india_inns2.txt']
 		nameofteam2=['Pakistan Innings ','India Innings ']
 		play=0
@@ -139,6 +142,7 @@ def scorecard():
 						yu=qwer[0].split("to",1)
 						kl=yu[0].split(" ",1)
 						kiu=kl[1]
+						# below dict is for run wickets 6 4 ball 
 						bolR[kiu]=0
 						bolo[kiu]=0
 						bolW[kiu]=0
@@ -148,19 +152,14 @@ def scorecard():
 						runR[yu[1]]=0
 						run6[yu[1]]=0
 						runD[yu[1]]=0
-						
+				# below udating those dict accoring to the commentry		
 				for i in lines:
 					if(i!='\n'):
 						qwer=i.split(",",4)
 						yu=qwer[0].split("to",1)
 						kl=yu[0].split(" ",1)
 						kiu=kl[1]
-						
-						
-						
-						
-						
-						
+	
 						if(qwer[1]==' 1 run'):
 							total+=1
 							bolR[kiu]+=1
@@ -340,13 +339,14 @@ def scorecard():
 							bolW[kiu]+=1
 							bolo[kiu]+=1
                 
-				
+				# below code for the score board print in txt
 				dictactualname={}
 				for key in run:
 					for w in nameofplayer:
 						if w.find(key)>=0:
 							dictactualname[key]=w
 				file7.write("\n")
+				# for bating 
 				file7.write("Batting")	
 				file7.write("\n")
 				file7.write(f"{'NAME':<50}{'RUNS':<10}{'BALLS':<10}{'6s':<10}{'4s':<10}{'SR':<10}")
@@ -355,14 +355,12 @@ def scorecard():
 					
 					file7.write(f"{dictactualname[key]:<50}{run[key]:<10}{runR[key]:<10}{run6[key]:<10}{run4[key]:<10}{round((run[key]*100)/runR[key],2):<10}") 
 					file7.write('\n')
-					
-				
-				
+
 				file7.write("\n")
 				file7.write("Bowling")
 				file7.write("\n")
 				file7.write(f"{'NAME':<50}{'WICKET':<10}{'':<10}{'RUNS':<10}{'ECO':<10}")
-				
+				# for bolwing 
 				for key in bolR:
 					file7.write("\n")
 					file7.write(f"{key:<50}{bolW[key]:<10}{'':<10}{bolR[key]:<10}{round((bolR[key]*6)/bolo[key],2):<10}")
@@ -370,6 +368,7 @@ def scorecard():
 				file7.write("\n")
 				file7.write(" WICKETS ")
 				file7.write("\n")
+				# below code gives information about fall of wicket
 				for i in lines:
 					if(i!='\n'):
 						a.append(i[:len(i)])
@@ -380,34 +379,15 @@ def scorecard():
 							file7.write("\n")
 							file7.write(i[:len(i)-1][ind:])
 							file7.write("\n")
-							
-							
-							
-							
-				
-			# file7.write(a)
+
 			file7.write("\n")
+			# total score printing in txt file
 			wer=str(total)+"-"+str(wic)
 			file7.write(f"{'SCORE:':<80}{wer:>10}")
 			file7.write("\n")
 				
 					
-						
-			
-		
-			
-			
-		   
-            
-			# Pass this file object to csv.writer()
-			# and get a writer object
-				
-		
-			# Pass the list as an argument into
-			# the writ
-
-
-###Code
+	
 
 from platform import python_version
 ver = python_version()
