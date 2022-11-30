@@ -50,7 +50,7 @@ def login():
         relief = "ridge")
     canvas.place(x = 0, y = 0)
 
-    background_img = PhotoImage(file =f"frontend\\login\\background.png")
+    background_img = PhotoImage(file = f"frontend\\login\\background.png")
     background = canvas.create_image(
         502.0, 294.0,
         image=background_img)

@@ -9,14 +9,67 @@ from email.mime.text import MIMEText
 import smtplib
 import ssl
 import time
+import tqdm
 # import threading library
 import threading
 import openpyxl as xl
 # Choose a port that is free
+
+import socket
+import tqdm
+
 PORT = 5000
 while True:
 	try:
-			
+
+
+
+
+
+
+		recivingTheattecedfile=" "
+		def reciver(name,conn):
+			try:
+				print("recived file : ",name)
+				while True:
+					
+					try:
+
+						# client,addr=server.accept()
+						file_name=conn.recv(1024).decode(FORMAT)
+						print("Filename is",file_name)
+						print("waiting for file size")
+						recivingTheattecedfile=file_name
+						file_size=conn.recv(1024).decode(FORMAT)
+						print("and filesize",file_size)
+					except:
+						print("filename not recieved")
+					
+					# return
+
+					file=open(file_name,"wb")
+					
+					file_bytes=b""
+					done=False
+					print("File opened to write")
+
+					progress=tqdm.tqdm(unit="B",unit_scale=True,unit_divisor=1000,total=int(file_size))
+
+					while not done:
+						data=conn.recv(1024)
+						print(" bits recieving")
+						if file_bytes[-5:]==b"<END>":
+							done=True
+						else:
+							file_bytes+=data
+							progress.update(1024)
+
+					file.write(file_bytes)
+					file.close()
+					print("file downloaded")
+					break
+			except:
+				print("file not downloaded")
 		# An IPv4 address is obtained
 		# for the server.
 		SERVER = socket.gethostbyname(socket.gethostname())
@@ -221,6 +274,7 @@ while True:
 
 		chat_msg=""
 		def handle(conn, addr):
+			
 			# send_thread= threading.Thread(target=sendMsg,args=(conn, addr))
 			recv_thread= threading.Thread(target=recvMsg,args=(conn, addr))
 			# send_thread.start()
@@ -230,13 +284,26 @@ while True:
 		# messages to the each clients
 
 		def recvMsg(conn,addr):
-			# global chat_msg
+			print("here")
+			global chat_msg
 			while True:
 				try:
 					# conn.recv(chat_msg.decode(FORMAT))
 					print("Waiting for message...")
 					chat_msg=conn.recv(1024).decode(FORMAT)
-					print("recieved msg length=",len(chat_msg))
+					print("recieved msg length=",len(chat_msg),chat_msg)
+					if(chat_msg[:chat_msg.find("#")]=="ATTACHMENT"):
+						print("attachment detected")
+						print("waiting for file name")
+						try:
+							recv_thread2= threading.Thread(target=reciver,args=("rohit",conn))
+							recv_thread2.start()
+							recv_thread2.join()
+						# continue
+							# reciver("rohit",conn)
+						except:
+							print("Attachment not recieved")
+						time.sleep(10)
 					if chat_msg=="exit":
 						return
 					for client in clients:
@@ -246,9 +313,9 @@ while True:
 				except:
 					pass
 		def broadcastMessage(message):
-			for client in clients:
-				client.send(message)
-
+				for client in clients:
+					client.send(message)
+				
 		def send_email(email):
 			otp=random.randint(100000,999999)   
 			# email="coolbose7@gmail.com"                                                                
@@ -284,7 +351,11 @@ while True:
 
 		# call the method to
 		# begin the communication
+		# recv_thread2= threading.Thread(target=reciver,args=("rohit",))
+		# recv_thread2.start()
+			# send_thread.start()
+		
 		startChat()
-
+		
 	except:
 		exit()

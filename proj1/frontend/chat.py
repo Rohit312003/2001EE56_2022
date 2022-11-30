@@ -1,3 +1,4 @@
+import os
 import sys
 import threading
 import time
@@ -9,12 +10,17 @@ from tkinter.messagebox import showinfo
 FORMAT = "utf-8"
 flag=1
 def chat(client,name,initiate):
+    global flag
+    print("client is ",client,name,flag)
 
     def recvMsg(client):
         global flag
         # global chat_msg
-        while True and flag:
+        while True:
             try:
+                if flag==0:
+                    print("recv closed")
+                    return
                 # client.recv(chat_msg.decode(FORMAT))
                 print("waiting for msg")
                 chat_msg=client.recv(1024).decode(FORMAT)
@@ -119,8 +125,8 @@ def chat(client,name,initiate):
 
     def select_file():
         filetypes = (
-            ('text files', '*.txt'),
-            ('All files', '*.*')
+            ('All files', '*.*'),
+            ('text files', '*.txt')
         )
 
         filename = fd.askopenfilename(
@@ -134,35 +140,45 @@ def chat(client,name,initiate):
         )
 
         print(filename)
-
-
-        import os
-        import socket
-        client =socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        PORT = 5000
-        SERVER = "172.16.181.29"
-        ADDRESS = (SERVER, PORT)
-        client.connect(ADDRESS)
+        # import os
+        # import socket
+        # client =socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        # PORT = 5000
+        # SERVER = "172.16.181.29"
+        # ADDRESS = (SERVER, PORT)
+        # # ADDRESS = ("localhost",9999)
+        # client.connect(ADDRESS)
         file=open(filename,"rb")
         file_size=os.path.getsize(filename)
         typo=filename.split(".",1)
         kk=typo[1]
         textCons.config(state=NORMAL)
-    
-        textCons.insert(END,
-                        "NAME=> "+ filename+"\n\n")
+   
+        textCons.insert(END,name+ filename+"\n\n")
 
         textCons.config(state=DISABLED)
         textCons.see(END)
-        client.send(("recived."+kk).encode())
-        client.send(str(file_size).encode())
+        client.send(("ATTACHMENT#").encode(FORMAT))
+        # return
+        time.sleep(1)
+        client.send(("recived."+kk).encode(FORMAT))
+        print(("recived."+kk),"Sent")
+        time.sleep(1)
+        client.send(str(file_size).encode(FORMAT))
+        print(str(file_size),"Sent")
+        time.sleep(1)
 
 
         data=file.read()
         client.sendall(data)
+        # time.sleep()
+        print("file bits sent")
         client.send(b"<END>")
         file.close()
-        client.close()
+        # client.close()
+        return
+            
+        
 
     img1 = PhotoImage(file = f"frontend\\chatWindow\\img1.png")
     b1 = Button(
@@ -232,7 +248,10 @@ def chat(client,name,initiate):
     def threadTyping(client):
         print("typing initiated")
         prevlen=0
-        while True and flag:
+        while True:
+            if flag==0:
+                print("typing closed")
+                return
             # print("Entry is",entry0.get())
             currlen=len(entry0.get())
             if prevlen!=currlen:
@@ -254,10 +273,11 @@ def chat(client,name,initiate):
     textCons.config(state=DISABLED)
     window.resizable(False, False)
     window.mainloop()
+
     print("exitted")
-    global flag
+    # global flag
     flag=0
     client.send("exit".encode(FORMAT))
-    exit()
-    return
+    # exit()
+    return "exit"
     # sys.exit()
